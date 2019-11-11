@@ -1,0 +1,52 @@
+{
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "editor.fontSize": 13,
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.detectIndentation": true,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.formatOnPaste": true,
+    "editor.cursorBlinking": "phase",
+    "editor.cursorSmoothCaretAnimation": false,
+    "eslint.packageManager" : "pnpm",
+    "editor.quickSuggestions": {
+        "comments": true
+    },
+    "terminal.external.osxExec": "iTerm.app",
+    "workbench.statusBar.visible": true,
+    "workbench.activityBar.visible": false,
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "window.title": "${dirty} ${activeEditorMedium}${separator}${rootName}",
+    "window.zoomLevel": 0,
+    "editor.minimap.enabled": false,
+    "breadcrumbs.enabled": false,
+    "editor.renderWhitespace": "all",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact",
+        "php": "html",
+        "blade.php": "html",
+    },
+    "search.location": "panel",
+    "explorer.confirmDragAndDrop": false,
+    "php.executablePath": "/Applications/MAMP/bin/php/php7.3.1/bin/php",
+    "php.validate.enable": true,
+    "php.validate.run": "onSave",
+    "php.suggest.basic": false,
+    "html-css-class-completion.enableEmmetSupport": true,
+    "workbench.colorTheme": "Egoist One",
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/node_modules/**": true
+    },
+    "git.autofetch": false,
+    "[scss]": {
+        "editor.tabSize": 2       
+    },
+    "html.format.indentInnerHtml": true,
+    "vetur.format.options.useTabs": true,
+    "vetur.format.styleInitialIndent": true,
+    "vetur.format.scriptInitialIndent": true,
+    "workbench.startupEditor": "newUntitledFile"
+}
