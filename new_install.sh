@@ -49,14 +49,14 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 
-echo installing other Packages
-
+echo Install WP-Cli
 # wp-cli
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 php wp-cli.phar --info
 chmod +x wp-cli.phar
 sudo mv wp-cli.phar /usr/local/bin/wp
 
+echo install VSCode extensions
 code --install-extension gitlens
 code --install-extension vscode-pigments
 code --install-extension sass
@@ -66,7 +66,6 @@ code --install-extension highlight-matching-tag
 code --install-extension eslint
 code --install-extension prettier
 code --install-extension babel
-
 
 
 # brew clean up
