@@ -34,6 +34,8 @@ brew cask install the-unarchiver
 brew cask install dropbox
 brew cask install vanilla
 brew cask install google-drive
+brew caks install vlc
+brew cask isntall vanilla
 
 brew cask install google-chrome
 brew cask install firefox
