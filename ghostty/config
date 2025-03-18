@@ -1,0 +1,11 @@
+clipboard-read = allow
+clipboard-write = allow
+copy-on-select = true
+background-opacity = 0.9
+background-blur-radius = 7
+cursor-style = bar
+font-size = 16
+macos-non-native-fullscreen = true
+theme=catpuccin-mocha.conf
+
+
