@@ -67,7 +67,7 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(git macos laravel vscode zsh-interactive-cd  zsh-navigation-tools zsh-syntax-highlighting node npm brew)
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/colinrabyniuk/.oh-my-zsh"
+export ZSH="/Users/$(whoami)/.oh-my-zsh"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -135,7 +135,6 @@ export JUPYTER_PATH=/opt/homebrew/share/jupyter
 export JUPYTER_CONFIG_PATH=/opt/homebrew/etc/jupyter
 
 export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init - zsh)"
 export PHP_INI_SCAN_DIR="/Users/colinrabyniuk/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 export PATH="/opt/homebrew/opt/php@8.2/bin:$PATH"
 export PATH="/opt/homebrew/opt/php@8.2/sbin:$PATH"
@@ -144,4 +143,6 @@ export PATH="/opt/homebrew/opt/php@8.2/sbin:$PATH"
 autoload -U promptinit; promptinit
 prompt pure
 fpath+=("$(brew --prefix)/share/zsh/site-functions")
+eval "$(rbenv init - zsh)"
+eval "$(zoxide init zsh)"
 
