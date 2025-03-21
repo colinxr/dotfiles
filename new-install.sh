@@ -51,6 +51,7 @@ brew install --cask google-chrome
 brew install --cask firefox
 brew install --cask arc
 brew install --cask spotify
+brew install --cask git-credential-manager
 
 echo -e "\u001b[32;1mSet up iTerm & zsh \u001b[0m"
 brew install zsh
