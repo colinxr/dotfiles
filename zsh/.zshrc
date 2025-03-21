@@ -104,13 +104,13 @@ alias cd="z"
 alias gamed="git commit --amend --reuse-message HEAD"
 alias gac="ga .; gc -m"
 
-alias zshconfig="nvim ~/.zshrc"
+alias zshconf="nvim ~/.zshrc"
 alias src-zsh="source ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
 
-alias ghosttyconfig="nvim ~/.config/ghostty/config"
+alias ghosttyconf="nvim ~/.config/ghostty/config"
 
-alias tmuxconfig="nvim ~/.tmux.conf"
+alias tmuxconf="nvim ~/.tmux.conf"
 alias src-tmux="tmux source ~/.tmux.conf"
 
 alias sshKey="pbcopy < ~/.ssh/id_rsa.pub"
@@ -121,7 +121,6 @@ alias proj="cd ~/Projects"
 alias wfb="proj; wfb"
 alias lum="proj; luminoso"
 alias art="php artisan"
-
 
 
 PATH=$PATH:~/bin
