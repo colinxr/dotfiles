@@ -53,3 +53,8 @@
     cmd = diff_wrapper "$LOCAL" "$REMOTE"
 [credential "https://dev.azure.com"]
 	useHttpPath = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
