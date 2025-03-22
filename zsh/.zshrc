@@ -135,7 +135,7 @@ export JUPYTER_PATH=/opt/homebrew/share/jupyter
 export JUPYTER_CONFIG_PATH=/opt/homebrew/etc/jupyter
 
 export PATH="$HOME/.rbenv/bin:$PATH"
-export PHP_INI_SCAN_DIR="/Users/colinrabyniuk/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+export PHP_INI_SCAN_DIR="/Users/$(whoami)/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 export PATH="/opt/homebrew/opt/php@8.2/bin:$PATH"
 export PATH="/opt/homebrew/opt/php@8.2/sbin:$PATH"
 
