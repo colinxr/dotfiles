@@ -146,3 +146,4 @@ fpath+=("$(brew --prefix)/share/zsh/site-functions")
 eval "$(rbenv init - zsh)"
 eval "$(zoxide init zsh)"
 
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

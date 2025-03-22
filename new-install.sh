@@ -11,7 +11,7 @@ echo -e "Install Homebrew"
 
 # nvm
 echo -e "Install NVM"
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.zsh | zsh
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
 echo -e "Install Node"
 nvm install node
 
