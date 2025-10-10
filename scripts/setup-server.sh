@@ -68,6 +68,12 @@ if ! command_exists zsh; then
     install_package "zsh" "zsh"
 fi
 
+# Install Oh My Zsh if not present
+if [[ ! -d ~/.oh-my-zsh ]]; then
+    echo "📦 Installing Oh My Zsh..."
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+fi
+
 # Install zsh-syntax-highlighting
 if [[ ! -d ~/.zsh-syntax-highlighting ]]; then
     echo "📦 Installing zsh-syntax-highlighting..."

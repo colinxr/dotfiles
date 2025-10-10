@@ -2,6 +2,11 @@
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
+# Fix TERM for Ghostty terminal compatibility
+if [[ "$TERM" == "xterm-ghostty" ]]; then
+  export TERM="xterm-256color"
+fi
+
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
@@ -68,12 +73,19 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git macos laravel vscode zsh-interactive-cd  zsh-navigation-tools zsh-syntax-highlighting node npm brew)
+plugins=(git laravel vscode zsh-interactive-cd zsh-navigation-tools zsh-syntax-highlighting node npm)
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/$(whoami)/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
-source $ZSH/oh-my-zsh.sh
+# Only load Oh My Zsh if it exists
+if [[ -d "$ZSH" ]]; then
+  source $ZSH/oh-my-zsh.sh
+else
+  # Fallback basic zsh configuration
+  autoload -U colors && colors
+  autoload -U compinit && compinit
+fi
 
 export PROMPT='%n@%m:%~%# '
 
@@ -160,9 +172,19 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/openblas/lib/pkgconfig"
 autoload -U promptinit; promptinit
 prompt pure
 fpath=(~/.config/zsh/completions $fpath)
-fpath+=("$(brew --prefix)/share/zsh/site-functions")
-eval "$(rbenv init - zsh)"
-eval "$(tmuxifier init -)"
+
+# Conditional tool initialization
+if command -v brew >/dev/null 2>&1; then
+  fpath+=("$(brew --prefix)/share/zsh/site-functions")
+fi
+
+if command -v rbenv >/dev/null 2>&1; then
+  eval "$(rbenv init - zsh)"
+fi
+
+if command -v tmuxifier >/dev/null 2>&1; then
+  eval "$(tmuxifier init -)"
+fi
 
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
