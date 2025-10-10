@@ -96,6 +96,9 @@ if [[ -f ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
 fi
 
 # Initialize Pure prompt after Oh My Zsh
+if [[ -f ~/.oh-my-zsh/custom/themes/pure/async.zsh ]]; then
+  source ~/.oh-my-zsh/custom/themes/pure/async.zsh
+fi
 if [[ -f ~/.oh-my-zsh/custom/themes/pure/pure.zsh ]]; then
   source ~/.oh-my-zsh/custom/themes/pure/pure.zsh
 fi
