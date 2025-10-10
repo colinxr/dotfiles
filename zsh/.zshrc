@@ -79,8 +79,9 @@ plugins=(git laravel vscode zsh-interactive-cd zsh-navigation-tools node npm)
 export ZSH="$HOME/.oh-my-zsh"
 
 # Initialize pure prompt BEFORE Oh My Zsh
-autoload -U promptinit; promptinit
-prompt pure
+if [[ -f ~/.oh-my-zsh/custom/themes/pure/pure.zsh ]]; then
+  source ~/.oh-my-zsh/custom/themes/pure/pure.zsh
+fi
 
 # Only load Oh My Zsh if it exists
 if [[ -d "$ZSH" ]]; then
