@@ -1,0 +1,21 @@
+# .zshrc.local.example
+# Copy this to .zshrc.local and customize for your machine
+# This file is gitignored and won't be tracked in your dotfiles repo
+
+# Machine-specific PATH modifications
+# export PATH="/custom/path:$PATH"
+
+# Machine-specific environment variables
+# export HERD_PHP_84_INI_SCAN_DIR="/Users/username/Library/Application Support/Herd/config/php/84/"
+# export NODE_EXTRA_CA_CERTS=/path/to/project-specific/cert.pem
+
+# API keys and secrets (NEVER commit these to the repo)
+# export GROQ_API_KEY="your-key-here"
+# export AIDER_MODEL=groq/qwen/qwen3-32b
+
+# Machine-specific aliases
+# alias aws-refresh="saml2aws login --skip-prompt --session-duration=28800; aws sso login --profile frontend"
+
+# Project-specific shortcuts
+# alias myproject="cd ~/Projects/myproject"
+

@@ -1,3 +1,7 @@
+# Volta
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
@@ -100,7 +104,6 @@ export PROMPT='%n@%m:%~%# '
 #
 # Example aliases
 alias lsa="ls -la"
-alias cd="z"
 alias gamed="git commit --amend --reuse-message HEAD"
 alias gac="ga .; gc -m"
 
@@ -113,7 +116,7 @@ alias ghosttyconf="nvim ~/.config/ghostty/config"
 alias tmuxconf="nvim ~/.tmux.conf"
 alias src-tmux="tmux source ~/.tmux.conf"
 
-alias sshKey="pbcopy < ~/.ssh/id_rsa.pub"
+alias sshKey="pbcopy < ~/.ssh/id_ed25519.pub"
 alias sshConfig="nvim ~/.ssh/config"
 
 alias sites="cd ~/Sites"
@@ -121,7 +124,15 @@ alias proj="cd ~/Projects"
 alias wfb="proj; wfb"
 alias lum="proj; luminoso"
 alias art="php artisan"
+alias vapor="php vendor/bin/vapor"
+alias cur="proj; curology"
+alias pok="proj; cd PocketDerm"
+alias con="proj; conductor"
+alias foll="proj; cd follett"
+alias op="tmuxinator"
 
+alias eve="proj; cd evelyn"
+alias jnc="proj; junction-bank"
 
 PATH=$PATH:~/bin
 PATH=$PATH:~/usr/bin
@@ -138,12 +149,41 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 export PHP_INI_SCAN_DIR="/Users/$(whoami)/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 export PATH="/opt/homebrew/opt/php@8.2/bin:$PATH"
 export PATH="/opt/homebrew/opt/php@8.2/sbin:$PATH"
+export PATH="$HOME/.tmuxifier/bin:$PATH"
+export PATH="/opt/herd/php/current/bin:$PATH"
+export PATH="/Users/colin/.local/bin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/openblas/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/openblas/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/openblas/lib/pkgconfig"
 
 # initialize pure prompt
 autoload -U promptinit; promptinit
 prompt pure
+fpath=(~/.config/zsh/completions $fpath)
 fpath+=("$(brew --prefix)/share/zsh/site-functions")
 eval "$(rbenv init - zsh)"
-eval "$(zoxide init zsh)"
+eval "$(tmuxifier init -)"
 
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export VOLTA_FEATURE_PNPM=1
+
+# Docker Desktop CLI completions
+autoload -Uz compinit
+compinit
+export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
+export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+
+export EDITOR='nvim'
+
+
+# Initialize zoxide (must be at the end)
+eval "$(zoxide init zsh)"
+
+# Source local machine-specific configuration if it exists
+if [[ -f ~/.zshrc.local ]]; then
+  source ~/.zshrc.local
+fi

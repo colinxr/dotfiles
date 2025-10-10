@@ -12,3 +12,16 @@ znt
 raycast
 _raycast
 .DS_Store
+.aider*
+
+# Local machine-specific configs
+zsh/.zshrc.local
+
+# PHP Composer dependencies
+composer/
+
+# Container runtime data
+containers/
+
+# Python uv package manager data
+uv/

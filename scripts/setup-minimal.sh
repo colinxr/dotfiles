@@ -1,0 +1,193 @@
+#!/bin/bash
+
+# setup-minimal.sh - Cross-platform essentials
+# Target: Quick setup, shared machines, containers, any platform
+
+set -e
+
+echo "🚀 Setting up minimal cross-platform development environment..."
+
+# Detect platform
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    PLATFORM="macos"
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    PLATFORM="linux"
+else
+    echo "❌ Unsupported platform: $OSTYPE"
+    exit 1
+fi
+
+echo "📋 Detected platform: $PLATFORM"
+
+# Function to check if command exists
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+# Function to install package based on platform
+install_package() {
+    local package=$1
+    local name=$2
+    
+    if command_exists "$package"; then
+        echo "✅ $name already installed"
+        return 0
+    fi
+    
+    echo "📦 Installing $name..."
+    
+    if [[ "$PLATFORM" == "macos" ]]; then
+        if command_exists brew; then
+            brew install "$package"
+        else
+            echo "❌ Homebrew not found. Please install Homebrew first."
+            return 1
+        fi
+    elif [[ "$PLATFORM" == "linux" ]]; then
+        if command_exists apt-get; then
+            sudo apt-get update
+            sudo apt-get install -y "$package"
+        elif command_exists yum; then
+            sudo yum install -y "$package"
+        elif command_exists dnf; then
+            sudo dnf install -y "$package"
+        elif command_exists pacman; then
+            sudo pacman -S --noconfirm "$package"
+        else
+            echo "❌ No supported package manager found"
+            return 1
+        fi
+    fi
+}
+
+# Install shell
+echo "🔧 Installing shell..."
+
+# Install zsh if not present
+if ! command_exists zsh; then
+    install_package "zsh" "zsh"
+fi
+
+# Install zsh-syntax-highlighting
+if [[ ! -d ~/.zsh-syntax-highlighting ]]; then
+    echo "📦 Installing zsh-syntax-highlighting..."
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh-syntax-highlighting
+fi
+
+# Install minimal core development tools
+echo "🛠️ Installing minimal core development tools..."
+install_package "docker" "Docker"
+install_package "fzf" "fzf"
+install_package "zoxide" "zoxide"
+install_package "bat" "bat"
+install_package "gh" "GitHub CLI"
+
+# Set up minimal shell configuration
+echo "⚙️ Setting up minimal shell configuration..."
+
+# Create zsh config directory if it doesn't exist
+mkdir -p ~/.config/zsh
+
+# Copy minimal zsh configuration
+if [[ -f ~/.config/zsh/.zshrc ]]; then
+    echo "✅ zsh configuration already exists"
+else
+    echo "📋 Creating minimal zsh configuration..."
+    cat > ~/.config/zsh/.zshrc << 'EOF'
+# Minimal cross-platform zsh configuration
+
+# Enable colors
+autoload -U colors && colors
+
+# History configuration
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_VERIFY
+setopt SHARE_HISTORY
+
+# Basic completion
+autoload -U compinit
+compinit
+
+# Enable zsh-syntax-highlighting
+if [[ -f ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+    source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+# Essential aliases
+alias ll='ls -la'
+alias la='ls -A'
+alias l='ls -CF'
+alias ..='cd ..'
+alias ...='cd ../..'
+
+# fzf integration
+if command -v fzf >/dev/null 2>&1; then
+    if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
+        source /usr/share/fzf/key-bindings.zsh
+    elif [[ -f /usr/local/share/fzf/key-bindings.zsh ]]; then
+        source /usr/local/share/fzf/key-bindings.zsh
+    fi
+fi
+
+# zoxide integration
+if command -v zoxide >/dev/null 2>&1; then
+    eval "$(zoxide init zsh)"
+fi
+
+# bat integration
+if command -v bat >/dev/null 2>&1; then
+    alias cat='bat'
+fi
+
+# Docker aliases
+if command -v docker >/dev/null 2>&1; then
+    alias d='docker'
+    alias dc='docker-compose'
+    alias dps='docker ps'
+    alias di='docker images'
+fi
+
+# Git aliases
+alias g='git'
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+alias gl='git log --oneline'
+
+# GitHub CLI aliases
+if command -v gh >/dev/null 2>&1; then
+    alias ghr='gh repo'
+    alias ghi='gh issue'
+    alias ghp='gh pr'
+fi
+EOF
+fi
+
+# Set zsh as default shell if not already
+if [[ "$SHELL" != *"zsh"* ]]; then
+    echo "🔄 Setting zsh as default shell..."
+    chsh -s $(which zsh)
+    echo "⚠️  Please restart your terminal or run 'exec zsh' to use zsh"
+fi
+
+echo "✅ Minimal setup complete!"
+echo "📝 Next steps:"
+echo "   - Restart your terminal or run 'exec zsh'"
+echo "   - Configure any additional tools as needed"
+echo "   - Set up project-specific configurations"
+echo ""
+echo "🔧 Installed tools:"
+echo "   - zsh (shell)"
+echo "   - zsh-syntax-highlighting (shell enhancement)"
+echo "   - docker (containerization)"
+echo "   - fzf (fuzzy finder)"
+echo "   - zoxide (smart cd)"
+echo "   - bat (better cat)"
+echo "   - gh (GitHub CLI)"
