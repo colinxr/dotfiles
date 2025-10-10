@@ -73,7 +73,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git laravel vscode zsh-interactive-cd zsh-navigation-tools zsh-syntax-highlighting node npm)
+plugins=(git laravel vscode zsh-interactive-cd zsh-navigation-tools node npm)
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -85,6 +85,11 @@ else
   # Fallback basic zsh configuration
   autoload -U colors && colors
   autoload -U compinit && compinit
+fi
+
+# Load zsh-syntax-highlighting if it exists
+if [[ -f ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+  source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 # export PROMPT='%n@%m:%~%# '  # Disabled to allow Pure prompt
