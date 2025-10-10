@@ -74,8 +74,41 @@ if [[ ! -d ~/.zsh-syntax-highlighting ]]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh-syntax-highlighting
 fi
 
-# Install core development tools
-install_package "docker" "Docker"
+# Install Docker (special handling for Linux)
+if ! command_exists docker; then
+    echo "📦 Installing Docker..."
+    if [[ "$PLATFORM" == "macos" ]]; then
+        if command_exists brew; then
+            brew install docker
+        else
+            echo "❌ Homebrew not found. Please install Homebrew first."
+            exit 1
+        fi
+    elif [[ "$PLATFORM" == "linux" ]]; then
+        # Install Docker using official Docker repository
+        sudo apt-get update
+        sudo apt-get install -y ca-certificates curl gnupg lsb-release
+        
+        # Add Docker's official GPG key
+        sudo mkdir -p /etc/apt/keyrings
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+        
+        # Add Docker repository
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        
+        # Update package index and install Docker
+        sudo apt-get update
+        sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+        
+        # Add user to docker group
+        sudo usermod -aG docker $USER
+        echo "⚠️  You may need to restart your session or run 'newgrp docker' to use Docker without sudo"
+    fi
+else
+    echo "✅ Docker already installed"
+fi
+
+# Install other core development tools
 install_package "fzf" "fzf"
 install_package "zoxide" "zoxide"
 install_package "bat" "bat"
