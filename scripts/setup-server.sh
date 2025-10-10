@@ -112,7 +112,6 @@ fi
 install_package "fzf" "fzf"
 install_package "zoxide" "zoxide"
 install_package "bat" "bat"
-install_package "lazydocker" "lazydocker"
 
 # Set up shell configuration
 echo "⚙️ Setting up shell configuration..."
