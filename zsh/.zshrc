@@ -87,7 +87,7 @@ else
   autoload -U compinit && compinit
 fi
 
-export PROMPT='%n@%m:%~%# '
+# export PROMPT='%n@%m:%~%# '  # Disabled to allow Pure prompt
 
 # User configuration
 
