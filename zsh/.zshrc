@@ -1,225 +1,171 @@
-# Volta
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
+# Source actual configuration from XDG-compliant location
+source "$HOME/.config/zsh/.zshrc"
+nfiguration - Server Compatible
+# ============================================================================
 
-# Fix TERM for Ghostty terminal compatibility
-if [[ "$TERM" == "xterm-ghostty" ]]; then
-  export TERM="xterm-256color"
-fi
+# XDG Base Directory compliance
+export HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/history"
+mkdir -p "$(dirname "$HISTFILE")"
 
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+# History configuration
+HISTSIZE=10000
+SAVEHIST=10000
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_VERIFY
+setopt SHARE_HISTORY
+setopt APPEND_HISTORY
+setopt INC_APPEND_HISTORY
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# ============================================================================
+# Oh My Zsh Setup
+# ============================================================================
 
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME=""
 DISABLE_AUTO_TITLE="true"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+# Plugins
+plugins=(git zsh-interactive-cd zsh-navigation-tools)
 
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git laravel vscode zsh-interactive-cd zsh-navigation-tools node npm)
-
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-
-# Disable Oh My Zsh theme to use Pure
-ZSH_THEME=""
-
-# Only load Oh My Zsh if it exists
+# Load Oh My Zsh if available
 if [[ -d "$ZSH" ]]; then
   source $ZSH/oh-my-zsh.sh
 else
-  # Fallback basic zsh configuration
+  # Fallback: basic zsh configuration
   autoload -U colors && colors
-  autoload -U compinit && compinit
+  autoload -Uz compinit && compinit
 fi
 
-# Load zsh-syntax-highlighting if it exists
-if [[ -f ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-  source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
+# ============================================================================
+# Prompt Configuration
+# ============================================================================
 
-# Initialize Pure prompt after Oh My Zsh
-if [[ -f ~/.oh-my-zsh/custom/themes/pure/async.zsh ]]; then
+# Load Pure prompt if available
+if [[ -f ~/.oh-my-zsh/custom/themes/pure/async.zsh ]] && [[ -f ~/.oh-my-zsh/custom/themes/pure/pure.zsh ]]; then
   source ~/.oh-my-zsh/custom/themes/pure/async.zsh
-fi
-if [[ -f ~/.oh-my-zsh/custom/themes/pure/pure.zsh ]]; then
   source ~/.oh-my-zsh/custom/themes/pure/pure.zsh
 fi
 
-# export PROMPT='%n@%m:%~%# '  # Disabled to allow Pure prompt
+# ============================================================================
+# Completions
+# ============================================================================
 
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-alias lsa="ls -la"
-alias gamed="git commit --amend --reuse-message HEAD"
-alias gac="ga .; gc -m"
-
-alias zshconf="nvim ~/.zshrc"
-alias src-zsh="source ~/.zshrc"
-alias ohmyzsh="nvim ~/.oh-my-zsh"
-
-alias ghosttyconf="nvim ~/.config/ghostty/config"
-
-alias tmuxconf="nvim ~/.tmux.conf"
-alias src-tmux="tmux source ~/.tmux.conf"
-
-alias sshKey="pbcopy < ~/.ssh/id_ed25519.pub"
-alias sshConfig="nvim ~/.ssh/config"
-
-alias sites="cd ~/Sites"
-alias proj="cd ~/Projects"
-alias wfb="proj; wfb"
-alias lum="proj; luminoso"
-alias art="php artisan"
-alias vapor="php vendor/bin/vapor"
-alias cur="proj; curology"
-alias pok="proj; cd PocketDerm"
-alias con="proj; conductor"
-alias foll="proj; cd follett"
-alias op="tmuxinator"
-
-alias eve="proj; cd evelyn"
-alias jnc="proj; junction-bank"
-
-PATH=$PATH:~/bin
-PATH=$PATH:~/usr/bin
-PATH=$PATH:~/usr/local/bin
-PATH=$PATH:/usr/local/bin
-PATH=$PATH:~/usr/local/bin/composer
-PATH=$PATH:~/.composer/vendor/bin
-PATH=$PATH:/usr/local/mysql/bin
-
-export JUPYTER_PATH=/opt/homebrew/share/jupyter 
-export JUPYTER_CONFIG_PATH=/opt/homebrew/etc/jupyter
-
-export PATH="$HOME/.rbenv/bin:$PATH"
-export PHP_INI_SCAN_DIR="/Users/$(whoami)/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
-export PATH="/opt/homebrew/opt/php@8.2/bin:$PATH"
-export PATH="/opt/homebrew/opt/php@8.2/sbin:$PATH"
-export PATH="$HOME/.tmuxifier/bin:$PATH"
-export PATH="/opt/herd/php/current/bin:$PATH"
-export PATH="/Users/colin/.local/bin:$PATH"
-export LDFLAGS="-L/opt/homebrew/opt/openblas/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/openblas/include"
-export PKG_CONFIG_PATH="/opt/homebrew/opt/openblas/lib/pkgconfig"
-
-# Pure prompt already initialized above
 fpath=(~/.config/zsh/completions $fpath)
 
-# Conditional tool initialization
 if command -v brew >/dev/null 2>&1; then
   fpath+=("$(brew --prefix)/share/zsh/site-functions")
 fi
 
-if command -v rbenv >/dev/null 2>&1; then
-  eval "$(rbenv init - zsh)"
+# ============================================================================
+# Syntax Highlighting
+# ============================================================================
+
+if [[ -f ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+  source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
-if command -v tmuxifier >/dev/null 2>&1; then
-  eval "$(tmuxifier init -)"
+# ============================================================================
+# Core Aliases
+# ============================================================================
+
+# File operations
+alias ll='ls -la'
+alias la='ls -A'
+alias l='ls -CF'
+alias lsa='ls -la'
+
+# Navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+
+# Git aliases
+alias g='git'
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+alias gl='git log --oneline'
+alias gamed='git commit --amend --reuse-message HEAD'
+alias gac='ga .; gc -m'
+
+# Configuration editing
+alias zshconf='$EDITOR ~/.config/zsh/.zshrc'
+alias src-zsh='source ~/.config/zsh/.zshrc'
+
+# ============================================================================
+# Tool Integrations
+# ============================================================================
+
+# Editor
+if command -v nvim >/dev/null 2>&1; then
+  export EDITOR='nvim'
+elif command -v vim >/dev/null 2>&1; then
+  export EDITOR='vim'
+else
+  export EDITOR='vi'
 fi
 
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# fzf - fuzzy finder
+if command -v fzf >/dev/null 2>&1; then
+  # Try common installation paths
+  if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
+    source /usr/share/fzf/key-bindings.zsh
+  elif [[ -f /usr/local/share/fzf/key-bindings.zsh ]]; then
+    source /usr/local/share/fzf/key-bindings.zsh
+  elif [[ -f ~/.fzf.zsh ]]; then
+    source ~/.fzf.zsh
+  fi
+  
+  # Completion
+  if [[ -f /usr/share/fzf/completion.zsh ]]; then
+    source /usr/share/fzf/completion.zsh
+  elif [[ -f /usr/local/share/fzf/completion.zsh ]]; then
+    source /usr/local/share/fzf/completion.zsh
+  fi
+fi
 
-export VOLTA_FEATURE_PNPM=1
+# zoxide - smarter cd
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
 
-# Docker Desktop CLI completions
-autoload -Uz compinit
-compinit
-export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
-export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
-export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+# bat - better cat
+if command -v bat >/dev/null 2>&1; then
+  alias cat='bat'
+elif command -v batcat >/dev/null 2>&1; then
+  alias cat='batcat'
+  alias bat='batcat'
+fi
 
-export EDITOR='nvim'
+# Docker aliases
+if command -v docker >/dev/null 2>&1; then
+  alias d='docker'
+  alias dps='docker ps'
+  alias di='docker images'
+  alias dex='docker exec -it'
+  alias dlogs='docker logs -f'
+fi
 
+if command -v docker-compose >/dev/null 2>&1; then
+  alias dc='docker-compose'
+fi
 
-# Initialize zoxide (must be at the end)
-eval "$(zoxide init zsh)"
+# GitHub CLI
+if command -v gh >/dev/null 2>&1; then
+  alias ghr='gh repo'
+  alias ghi='gh issue'
+  alias ghp='gh pr'
+fi
 
-# Source local machine-specific configuration if it exists
-if [[ -f ~/.zshrc.local ]]; then
-  source ~/.zshrc.local
+# ============================================================================
+# Machine-Specific Configuration
+# ============================================================================
+
+# Source local configuration if it exists (desktop-specific tools, paths, aliases)
+if [[ -f ~/.config/zsh/.zshrc.local ]]; then
+  source ~/.config/zsh/.zshrc.local
 fi
