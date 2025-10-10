@@ -78,6 +78,10 @@ plugins=(git laravel vscode zsh-interactive-cd zsh-navigation-tools node npm)
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
+# Initialize pure prompt BEFORE Oh My Zsh
+autoload -U promptinit; promptinit
+prompt pure
+
 # Only load Oh My Zsh if it exists
 if [[ -d "$ZSH" ]]; then
   source $ZSH/oh-my-zsh.sh
@@ -173,9 +177,7 @@ export LDFLAGS="-L/opt/homebrew/opt/openblas/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/openblas/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/openblas/lib/pkgconfig"
 
-# initialize pure prompt
-autoload -U promptinit; promptinit
-prompt pure
+# Pure prompt already initialized above
 fpath=(~/.config/zsh/completions $fpath)
 
 # Conditional tool initialization
