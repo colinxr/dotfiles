@@ -74,6 +74,12 @@ if [[ ! -d ~/.oh-my-zsh ]]; then
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
+# Install Pure theme if not present
+if [[ ! -d ~/.oh-my-zsh/custom/themes/pure ]]; then
+    echo "📦 Installing Pure theme..."
+    git clone https://github.com/sindresorhus/pure.git ~/.oh-my-zsh/custom/themes/pure
+fi
+
 # Install zsh-syntax-highlighting
 if [[ ! -d ~/.zsh-syntax-highlighting ]]; then
     echo "📦 Installing zsh-syntax-highlighting..."

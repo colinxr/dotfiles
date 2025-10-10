@@ -78,8 +78,8 @@ plugins=(git laravel vscode zsh-interactive-cd zsh-navigation-tools node npm)
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-# Use Oh My Zsh's built-in Pure theme
-ZSH_THEME="pure"
+# Disable Oh My Zsh theme to use Pure
+ZSH_THEME=""
 
 # Only load Oh My Zsh if it exists
 if [[ -d "$ZSH" ]]; then
@@ -93,6 +93,11 @@ fi
 # Load zsh-syntax-highlighting if it exists
 if [[ -f ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
   source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+# Initialize Pure prompt after Oh My Zsh
+if [[ -f ~/.oh-my-zsh/custom/themes/pure/pure.zsh ]]; then
+  source ~/.oh-my-zsh/custom/themes/pure/pure.zsh
 fi
 
 # export PROMPT='%n@%m:%~%# '  # Disabled to allow Pure prompt
