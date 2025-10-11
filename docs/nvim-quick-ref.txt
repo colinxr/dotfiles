@@ -1,0 +1,96 @@
+╔════════════════════════════════════════════════════════════════╗
+║              NEOVIM MINIMAL CONFIG - QUICK REFERENCE           ║
+╚════════════════════════════════════════════════════════════════╝
+
+OPENING FILES
+─────────────────────────────────────────────────────────────────
+  nvim filename.txt       Open specific file from command line
+  :e filename.txt         Open file from within nvim
+  :Ex                     Open file explorer (netrw)
+  :e .                    Browse current directory
+
+ESSENTIAL KEYS
+─────────────────────────────────────────────────────────────────
+  Space                   Leader key (prefix for commands)
+  Space + w               Save file (:w)
+  Space + q               Quit (:q)
+  Space + e               File explorer (:Ex)
+  Esc                     Clear search highlight
+
+NAVIGATION
+─────────────────────────────────────────────────────────────────
+  h j k l                 Move cursor left/down/up/right
+  w / b                   Next/previous word
+  gg / G                  Go to top/bottom of file
+  Ctrl+d / Ctrl+u         Scroll half page down/up (centered)
+  n / N                   Next/previous search result
+
+EDITING
+─────────────────────────────────────────────────────────────────
+  i                       Insert mode (start typing)
+  Esc                     Exit insert mode (back to normal)
+  o / O                   Insert line below/above
+  dd                      Delete line
+  yy                      Copy line
+  p                       Paste
+  u                       Undo
+  Ctrl+r                  Redo
+
+VISUAL MODE (SELECTION)
+─────────────────────────────────────────────────────────────────
+  v                       Visual mode (character selection)
+  V                       Visual line mode
+  J (in visual)           Move selection down
+  K (in visual)           Move selection up
+
+SEARCHING
+─────────────────────────────────────────────────────────────────
+  /pattern                Search forward
+  ?pattern                Search backward
+  n                       Next match
+  N                       Previous match
+  *                       Search for word under cursor
+
+SAVING & QUITTING
+─────────────────────────────────────────────────────────────────
+  :w                      Save
+  :q                      Quit (fails if unsaved)
+  :wq                     Save and quit
+  :q!                     Quit without saving
+  ZZ                      Save and quit (normal mode)
+
+FILE EXPLORER (:Ex)
+─────────────────────────────────────────────────────────────────
+  Enter                   Open file/directory
+  -                       Go up one directory
+  %                       Create new file
+  d                       Create new directory
+  D                       Delete file/directory
+
+WINDOW MANAGEMENT
+─────────────────────────────────────────────────────────────────
+  :sp filename            Horizontal split
+  :vsp filename           Vertical split
+  Ctrl+w then h/j/k/l     Navigate between windows
+  Ctrl+w then q           Close current window
+
+TIPS
+─────────────────────────────────────────────────────────────────
+  • This is a MINIMAL config - no plugins, no auto-complete
+  • Press Space+e to browse files (netrw file explorer)
+  • Always use :w to save before :q to quit
+  • Press Esc to get back to normal mode if stuck
+  • Use :help <topic> for built-in help (e.g., :help motion)
+
+FIX CRASHED NVIM
+─────────────────────────────────────────────────────────────────
+  If nvim crashes on startup (trying to install plugins):
+  
+  ~/.config/scripts/fix-nvim-server.sh
+  
+  This replaces the full config with this minimal version.
+
+═════════════════════════════════════════════════════════════════
+View this file: cat ~/.config/docs/nvim-quick-ref.txt
+Full docs: cat ~/.config/docs/nvim-configs.md
+

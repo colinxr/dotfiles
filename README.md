@@ -149,8 +149,9 @@ alias myproject="cd ~/Projects/myproject"
 **Target**: Remote servers, headless machines, CI/CD environments
 
 **Includes**:
-- Shell (zsh, zsh-syntax-highlighting)
-- Core development tools (docker, fzf, zoxide, bat, lazydocker)
+- Shell (zsh, zsh-syntax-highlighting, Starship prompt)
+- Core development tools (docker, fzf, zoxide, bat)
+- **Neovim with minimal server-friendly config** (no plugins, instant startup)
 - Shell configuration (zsh/.zshrc)
 - Cross-platform support (macOS/Linux)
 
@@ -161,6 +162,7 @@ alias myproject="cd ~/Projects/myproject"
 - Project-specific runtimes (Node.js)
 - Editor extensions
 - Media players, browsers, productivity apps
+- LazyVim and heavy plugin installations
 
 ### `setup-minimal.sh` - Cross-Platform Essentials
 **Target**: Quick setup, shared machines, containers, any platform
@@ -171,6 +173,40 @@ alias myproject="cd ~/Projects/myproject"
 - Shell configuration (zsh/.zshrc)
 - No personal configurations
 - Lightweight and portable
+
+## Neovim Configuration
+
+This repository includes two separate neovim configurations for different environments:
+
+### Desktop/Local: LazyVim (Full Featured)
+- Location: `nvim/` directory in this repo
+- 30+ plugins with LSP, auto-completion, file trees, fuzzy finding
+- Rich UI and advanced features
+- Requires significant resources and network for first-time setup
+- **Use on**: Desktop/laptop with good resources
+
+### Server: Minimal Config (Resource Friendly)
+- Auto-installed by `setup-server.sh`
+- Zero plugins, no auto-install, no network required
+- Essential keybindings and settings only
+- Works immediately without setup delay
+- **Use on**: Remote servers, VPS, containers, CI/CD
+
+### Fix Crashed Neovim on Server
+
+If you accidentally synced the full LazyVim config to a server and it crashes:
+
+```bash
+# Run this on your server
+~/.config/scripts/fix-nvim-server.sh
+```
+
+This will:
+- Backup your full config to `~/.config/nvim.desktop-backup`
+- Install the minimal server config
+- Clean up plugin data
+
+See [docs/nvim-configs.md](docs/nvim-configs.md) for detailed documentation.
 
 ## Security Note
 

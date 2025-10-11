@@ -119,6 +119,25 @@ install_package "fzf" "fzf"
 install_package "zoxide" "zoxide"
 install_package "bat" "bat"
 
+# Install neovim
+if ! command_exists nvim; then
+    echo "📦 Installing neovim..."
+    if [[ "$PLATFORM" == "macos" ]]; then
+        brew install neovim
+    elif [[ "$PLATFORM" == "linux" ]]; then
+        # Try to get latest stable neovim
+        if command_exists snap; then
+            sudo snap install nvim --classic
+        elif command_exists apt-get; then
+            sudo apt-get install -y neovim
+        else
+            install_package "neovim" "neovim"
+        fi
+    fi
+else
+    echo "✅ neovim already installed"
+fi
+
 # Set up shell configuration
 echo "⚙️ Setting up shell configuration..."
 
@@ -208,12 +227,22 @@ alias gac='ga .; gc -m'
 alias zshconf='${EDITOR:-vi} ~/.config/zsh/.zshrc'
 alias src-zsh='source ~/.config/zsh/.zshrc'
 
+# Quick help aliases
+alias nvim-help='cat ~/.config/docs/nvim-quick-ref.txt'
+alias vimhelp='cat ~/.config/docs/nvim-quick-ref.txt'
+
 # ============================================================================
 # Tool Integrations
 # ============================================================================
 
 # Editor
-export EDITOR='${EDITOR:-vi}'
+if command -v nvim >/dev/null 2>&1; then
+  export EDITOR='nvim'
+  alias vim='nvim'
+  alias vi='nvim'
+else
+  export EDITOR='vi'
+fi
 
 # fzf - fuzzy finder
 if command -v fzf >/dev/null 2>&1; then
@@ -303,8 +332,167 @@ if [[ "$SHELL" != *"zsh"* ]]; then
     echo "⚠️  Please restart your terminal or run 'exec zsh' to use zsh"
 fi
 
+# Set up minimal neovim configuration
+echo "⚙️ Setting up minimal neovim configuration..."
+mkdir -p ~/.config/nvim
+mkdir -p ~/.config/docs
+
+if [[ -f ~/.config/nvim/init.lua ]]; then
+    echo "⚠️  Existing nvim config found. Creating backup..."
+    mv ~/.config/nvim/init.lua ~/.config/nvim/init.lua.backup
+fi
+
+cat > ~/.config/nvim/init.lua << 'EOF'
+-- Minimal server-friendly nvim config
+-- No plugin manager, no auto-install, just essential settings
+
+-- Basic settings
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+vim.opt.smartindent = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.hlsearch = true
+vim.opt.incsearch = true
+vim.opt.termguicolors = true
+vim.opt.scrolloff = 8
+vim.opt.signcolumn = "yes"
+vim.opt.updatetime = 50
+vim.opt.clipboard = "unnamedplus"
+vim.opt.mouse = "a"
+
+-- Basic keymaps
+vim.g.mapleader = " "
+vim.keymap.set("n", "<leader>w", ":w<CR>")
+vim.keymap.set("n", "<leader>q", ":q<CR>")
+vim.keymap.set("n", "<leader>e", ":Ex<CR>")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "n", "nzzzv")
+vim.keymap.set("n", "N", "Nzzzv")
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+-- Clear search highlight
+vim.keymap.set("n", "<Esc>", ":noh<CR>")
+
+-- File type detection
+vim.cmd("filetype plugin indent on")
+vim.cmd("syntax enable")
+
+-- Set colorscheme (built-in fallback)
+vim.cmd("colorscheme habamax")
+EOF
+
+echo "✅ Minimal nvim configuration created"
+
+# Create nvim quick reference
+cat > ~/.config/docs/nvim-quick-ref.txt << 'HELPEOF'
+╔════════════════════════════════════════════════════════════════╗
+║              NEOVIM MINIMAL CONFIG - QUICK REFERENCE           ║
+╚════════════════════════════════════════════════════════════════╝
+
+OPENING FILES
+─────────────────────────────────────────────────────────────────
+  nvim filename.txt       Open specific file from command line
+  :e filename.txt         Open file from within nvim
+  :Ex                     Open file explorer (netrw)
+  :e .                    Browse current directory
+
+ESSENTIAL KEYS
+─────────────────────────────────────────────────────────────────
+  Space                   Leader key (prefix for commands)
+  Space + w               Save file (:w)
+  Space + q               Quit (:q)
+  Space + e               File explorer (:Ex)
+  Esc                     Clear search highlight
+
+NAVIGATION
+─────────────────────────────────────────────────────────────────
+  h j k l                 Move cursor left/down/up/right
+  w / b                   Next/previous word
+  gg / G                  Go to top/bottom of file
+  Ctrl+d / Ctrl+u         Scroll half page down/up (centered)
+  n / N                   Next/previous search result
+
+EDITING
+─────────────────────────────────────────────────────────────────
+  i                       Insert mode (start typing)
+  Esc                     Exit insert mode (back to normal)
+  o / O                   Insert line below/above
+  dd                      Delete line
+  yy                      Copy line
+  p                       Paste
+  u                       Undo
+  Ctrl+r                  Redo
+
+VISUAL MODE (SELECTION)
+─────────────────────────────────────────────────────────────────
+  v                       Visual mode (character selection)
+  V                       Visual line mode
+  J (in visual)           Move selection down
+  K (in visual)           Move selection up
+
+SEARCHING
+─────────────────────────────────────────────────────────────────
+  /pattern                Search forward
+  ?pattern                Search backward
+  n                       Next match
+  N                       Previous match
+  *                       Search for word under cursor
+
+SAVING & QUITTING
+─────────────────────────────────────────────────────────────────
+  :w                      Save
+  :q                      Quit (fails if unsaved)
+  :wq                     Save and quit
+  :q!                     Quit without saving
+  ZZ                      Save and quit (normal mode)
+
+FILE EXPLORER (:Ex)
+─────────────────────────────────────────────────────────────────
+  Enter                   Open file/directory
+  -                       Go up one directory
+  %                       Create new file
+  d                       Create new directory
+  D                       Delete file/directory
+
+TIPS
+─────────────────────────────────────────────────────────────────
+  • This is a MINIMAL config - no plugins, no auto-complete
+  • Press Space+e to browse files (netrw file explorer)
+  • Always use :w to save before :q to quit
+  • Press Esc to get back to normal mode if stuck
+  • Use :help <topic> for built-in help (e.g., :help motion)
+
+FIX CRASHED NVIM
+─────────────────────────────────────────────────────────────────
+  If nvim crashes on startup (trying to install plugins):
+  
+  ~/.config/scripts/fix-nvim-server.sh
+
+═════════════════════════════════════════════════════════════════
+View this file: nvim-help (or cat ~/.config/docs/nvim-quick-ref.txt)
+HELPEOF
+
 echo "✅ Server setup complete!"
+echo ""
+echo "📝 Installed tools:"
+echo "   - zsh with syntax highlighting and Starship prompt"
+echo "   - neovim with minimal server-friendly config (no plugins)"
+echo "   - fzf, zoxide, bat, docker"
+echo ""
 echo "📝 Next steps:"
 echo "   - Restart your terminal or run 'exec zsh'"
-echo "   - Configure any additional tools as needed"
-echo "   - Set up project-specific configurations"
+echo "   - Test nvim: 'nvim test.txt'"
+echo "   - View nvim help: 'nvim-help' or 'vimhelp'"
+echo ""
+echo "⌨️  Essential nvim keys:"
+echo "   - Space+e: File explorer"
+echo "   - Space+w: Save"
+echo "   - Space+q: Quit"
+echo "   - :e filename: Open file"
+echo "   - Esc: Back to normal mode"
