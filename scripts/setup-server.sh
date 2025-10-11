@@ -138,7 +138,8 @@ else
     echo "📋 Creating zsh configuration..."
     cat > ~/.config/zsh/.zshrc << 'EOF'
 # ============================================================================
-# Base ZSH Configuration - Server Compatible
+# Base ZSH Configuration - Server Compatible (Performance Optimized)
+# To profile: time zsh -i -c exit
 # ============================================================================
 
 # XDG Base Directory compliance
@@ -148,14 +149,9 @@ mkdir -p "$(dirname "$HISTFILE")"
 # History configuration
 HISTSIZE=10000
 SAVEHIST=10000
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_SAVE_NO_DUPS
-setopt HIST_IGNORE_SPACE
-setopt HIST_VERIFY
-setopt SHARE_HISTORY
-setopt APPEND_HISTORY
-setopt INC_APPEND_HISTORY
+setopt HIST_IGNORE_DUPS HIST_IGNORE_ALL_DUPS HIST_SAVE_NO_DUPS
+setopt HIST_IGNORE_SPACE HIST_VERIFY SHARE_HISTORY
+setopt APPEND_HISTORY INC_APPEND_HISTORY
 
 # ============================================================================
 # Oh My Zsh Setup
@@ -164,10 +160,11 @@ setopt INC_APPEND_HISTORY
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME=""
 DISABLE_AUTO_TITLE="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"  # Performance: skip git untracked checks
 COMPLETION_WAITING_DOTS="true"
 
-# Plugins
-plugins=(git zsh-interactive-cd zsh-navigation-tools)
+# Plugins - minimal for performance
+plugins=(git zsh-syntax-highlighting)
 
 # Load Oh My Zsh if available
 if [[ -d "$ZSH" ]]; then
@@ -179,27 +176,31 @@ else
 fi
 
 # ============================================================================
-# Prompt Configuration
-# ============================================================================
-
-# Load Pure prompt if available
-if [[ -f ~/.oh-my-zsh/custom/themes/pure/async.zsh ]] && [[ -f ~/.oh-my-zsh/custom/themes/pure/pure.zsh ]]; then
-  source ~/.oh-my-zsh/custom/themes/pure/async.zsh
-  source ~/.oh-my-zsh/custom/themes/pure/pure.zsh
-fi
-
-# ============================================================================
-# Completions
+# Completions (optimized with caching)
 # ============================================================================
 
 fpath=(~/.config/zsh/completions $fpath)
 
+# Optimized compinit - cache for 24h
+autoload -Uz compinit
+if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
+
 # ============================================================================
-# Syntax Highlighting
+# Prompt Configuration
 # ============================================================================
 
-if [[ -f ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-  source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Load Pure prompt if available
+if [[ -d ~/.oh-my-zsh/custom/themes/pure ]]; then
+  fpath+=(~/.oh-my-zsh/custom/themes/pure)
+  autoload -U promptinit; promptinit
+  prompt pure
+else
+  # Fallback to simple prompt
+  export PROMPT='%n@%m:%~%# '
 fi
 
 # ============================================================================

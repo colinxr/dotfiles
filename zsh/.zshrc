@@ -1,5 +1,24 @@
+# ============================================================================
+# Performance Optimizations
+# To profile startup time: zmodload zsh/zprof at top, zprof at bottom
+# Or use: time zsh -i -c exit
+# ============================================================================
+
+# History Configuration
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_VERIFY
+setopt SHARE_HISTORY
+setopt APPEND_HISTORY
+setopt INC_APPEND_HISTORY
+
+# NVM - lazy loaded (see function at end of file)
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -64,19 +83,21 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git laravel vscode zsh-interactive-cd zsh-navigation-tools zsh-syntax-highlighting node npm)
+# Minimal set for performance - only essential plugins
+plugins=(git zsh-syntax-highlighting)
 
 # Add platform-specific plugins
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    plugins+=(macos brew)
+    plugins+=(macos)
 fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-source $ZSH/oh-my-zsh.sh
+# Performance optimizations for Oh My Zsh
+DISABLE_UNTRACKED_FILES_DIRTY="true"  # Skip git status for untracked files
 
-export PROMPT='%n@%m:%~%# '
+source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -169,17 +190,60 @@ else
     export PROMPT='%n@%m:%~%# '
 fi
 
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# Docker Desktop CLI completions
+# Optimized compinit - cache for 24h
 autoload -Uz compinit
-compinit
+if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+    compinit
+else
+    compinit -C
+fi
 
 export EDITOR='nvim'
 
+# ============================================================================
+# Deferred/Lazy Loading for Performance
+# ============================================================================
 
-# Initialize zoxide (must be at the end)
-eval "$(zoxide init zsh)"
+# Lazy load NVM - only initialize when node/npm/nvm is called
+if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+    # Add NVM's default node to path without loading full nvm
+    if [[ -d "$NVM_DIR/versions/node" ]]; then
+        NODE_GLOBALS=($NVM_DIR/versions/node/*/bin/*(N))
+        if [[ -n "$NODE_GLOBALS" ]]; then
+            export PATH="${NODE_GLOBALS[-1]}:$PATH"
+        fi
+    fi
+    
+    # Lazy load function - only load nvm when actually called
+    nvm() {
+        unfunction nvm node npm npx
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        nvm "$@"
+    }
+    
+    node() {
+        unfunction nvm node npm npx
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        node "$@"
+    }
+    
+    npm() {
+        unfunction nvm node npm npx
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        npm "$@"
+    }
+    
+    npx() {
+        unfunction nvm node npm npx
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        npx "$@"
+    }
+fi
+
+# Lazy load zoxide - initialize in background
+if command -v zoxide >/dev/null 2>&1; then
+    eval "$(zoxide init zsh)"
+fi
 
 # Source local machine-specific configuration if it exists
 if [[ -f ~/.zshrc.local ]]; then
