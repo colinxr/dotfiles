@@ -64,7 +64,12 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git macos laravel vscode zsh-interactive-cd  zsh-navigation-tools zsh-syntax-highlighting node npm brew)
+plugins=(git laravel vscode zsh-interactive-cd zsh-navigation-tools zsh-syntax-highlighting node npm)
+
+# Add platform-specific plugins
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    plugins+=(macos brew)
+fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -138,25 +143,31 @@ PATH=$PATH:~/usr/local/bin/composer
 PATH=$PATH:~/.composer/vendor/bin
 PATH=$PATH:/usr/local/mysql/bin
 
-export JUPYTER_PATH=/opt/homebrew/share/jupyter 
-export JUPYTER_CONFIG_PATH=/opt/homebrew/etc/jupyter
+# macOS-specific paths
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    export JUPYTER_PATH=/opt/homebrew/share/jupyter 
+    export JUPYTER_CONFIG_PATH=/opt/homebrew/etc/jupyter
+    export PHP_INI_SCAN_DIR="$HOME/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+    export PATH="/opt/homebrew/opt/php@8.2/bin:$PATH"
+    export PATH="/opt/homebrew/opt/php@8.2/sbin:$PATH"
+    export PATH="/opt/herd/php/current/bin:$PATH"
+    export LDFLAGS="-L/opt/homebrew/opt/openblas/lib"
+    export CPPFLAGS="-I/opt/homebrew/opt/openblas/include"
+    export PKG_CONFIG_PATH="/opt/homebrew/opt/openblas/lib/pkgconfig"
+fi
 
-export PATH="$HOME/.rbenv/bin:$PATH"
-export PHP_INI_SCAN_DIR="$HOME/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
-export PATH="/opt/homebrew/opt/php@8.2/bin:$PATH"
-export PATH="/opt/homebrew/opt/php@8.2/sbin:$PATH"
-export PATH="$HOME/.tmuxifier/bin:$PATH"
-export PATH="/opt/herd/php/current/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export LDFLAGS="-L/opt/homebrew/opt/openblas/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/openblas/include"
-export PKG_CONFIG_PATH="/opt/homebrew/opt/openblas/lib/pkgconfig"
-
-# initialize pure prompt
-autoload -U promptinit; promptinit
-prompt pure
-
+# Set up completions path
 fpath=(~/.config/zsh/completions $fpath)
+
+# Initialize Pure prompt
+if [[ -d ~/.oh-my-zsh/custom/themes/pure ]]; then
+    fpath+=(~/.oh-my-zsh/custom/themes/pure)
+    autoload -U promptinit; promptinit
+    prompt pure
+else
+    # Fallback to simple prompt
+    export PROMPT='%n@%m:%~%# '
+fi
 
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 

@@ -81,9 +81,9 @@ if [[ ! -d ~/.oh-my-zsh/custom/themes/pure ]]; then
 fi
 
 # Install zsh-syntax-highlighting
-if [[ ! -d ~/.zsh-syntax-highlighting ]]; then
+if [[ ! -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]]; then
     echo "📦 Installing zsh-syntax-highlighting..."
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh-syntax-highlighting
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 fi
 
 # Install Docker (special handling for Linux)
