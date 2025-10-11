@@ -155,23 +155,14 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/openblas/lib/pkgconfig"
 # initialize pure prompt
 autoload -U promptinit; promptinit
 prompt pure
+
 fpath=(~/.config/zsh/completions $fpath)
-fpath+=("$(brew --prefix)/share/zsh/site-functions")
-eval "$(rbenv init - zsh)"
-eval "$(tmuxifier init -)"
 
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-export VOLTA_FEATURE_PNPM=1
 
 # Docker Desktop CLI completions
 autoload -Uz compinit
 compinit
-export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
-export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
-export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
 export EDITOR='nvim'
 

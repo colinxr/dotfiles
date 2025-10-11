@@ -19,3 +19,16 @@
 # Project-specific shortcuts
 # alias myproject="cd ~/Projects/myproject"
 
+fpath+=("$(brew --prefix)/share/zsh/site-functions")
+eval "$(rbenv init - zsh)"
+eval "$(tmuxifier init -)"
+
+
+export VOLTA_FEATURE_PNPM=1
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+
+export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
+export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"
