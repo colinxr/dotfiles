@@ -67,7 +67,7 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(git macos laravel vscode zsh-interactive-cd  zsh-navigation-tools zsh-syntax-highlighting node npm brew)
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/$(whoami)/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -142,12 +142,12 @@ export JUPYTER_PATH=/opt/homebrew/share/jupyter
 export JUPYTER_CONFIG_PATH=/opt/homebrew/etc/jupyter
 
 export PATH="$HOME/.rbenv/bin:$PATH"
-export PHP_INI_SCAN_DIR="/Users/$(whoami)/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+export PHP_INI_SCAN_DIR="$HOME/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 export PATH="/opt/homebrew/opt/php@8.2/bin:$PATH"
 export PATH="/opt/homebrew/opt/php@8.2/sbin:$PATH"
 export PATH="$HOME/.tmuxifier/bin:$PATH"
 export PATH="/opt/herd/php/current/bin:$PATH"
-export PATH="/Users/colin/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/openblas/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/openblas/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/openblas/lib/pkgconfig"
