@@ -68,22 +68,16 @@ if ! command_exists zsh; then
     install_package "zsh" "zsh"
 fi
 
-# Install Oh My Zsh if not present
-if [[ ! -d ~/.oh-my-zsh ]]; then
-    echo "📦 Installing Oh My Zsh..."
-    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-fi
-
-# Install Pure theme if not present
-if [[ ! -d ~/.oh-my-zsh/custom/themes/pure ]]; then
-    echo "📦 Installing Pure theme..."
-    git clone https://github.com/sindresorhus/pure.git ~/.oh-my-zsh/custom/themes/pure
-fi
-
 # Install zsh-syntax-highlighting
-if [[ ! -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]]; then
+if [[ ! -d ~/.zsh-syntax-highlighting ]]; then
     echo "📦 Installing zsh-syntax-highlighting..."
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh-syntax-highlighting
+fi
+
+# Install Starship prompt
+if ! command_exists starship; then
+    echo "📦 Installing Starship prompt..."
+    curl -sS https://starship.rs/install.sh | sh -s -- -y
 fi
 
 # Install Docker (special handling for Linux)
@@ -154,26 +148,11 @@ setopt HIST_IGNORE_SPACE HIST_VERIFY SHARE_HISTORY
 setopt APPEND_HISTORY INC_APPEND_HISTORY
 
 # ============================================================================
-# Oh My Zsh Setup
+# Zsh Configuration
 # ============================================================================
 
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME=""
-DISABLE_AUTO_TITLE="true"
-DISABLE_UNTRACKED_FILES_DIRTY="true"  # Performance: skip git untracked checks
-COMPLETION_WAITING_DOTS="true"
-
-# Plugins - minimal for performance
-plugins=(git zsh-syntax-highlighting)
-
-# Load Oh My Zsh if available
-if [[ -d "$ZSH" ]]; then
-  source $ZSH/oh-my-zsh.sh
-else
-  # Fallback: basic zsh configuration
-  autoload -U colors && colors
-  autoload -Uz compinit && compinit
-fi
+# Enable colors and completion
+autoload -U colors && colors
 
 # ============================================================================
 # Completions (optimized with caching)
@@ -193,13 +172,11 @@ fi
 # Prompt Configuration
 # ============================================================================
 
-# Load Pure prompt if available
-if [[ -d ~/.oh-my-zsh/custom/themes/pure ]]; then
-  fpath+=(~/.oh-my-zsh/custom/themes/pure)
-  autoload -U promptinit; promptinit
-  prompt pure
+# Initialize Starship prompt
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
 else
-  # Fallback to simple prompt
+  # Fallback to simple prompt if starship not installed
   export PROMPT='%n@%m:%~%# '
 fi
 
@@ -288,6 +265,15 @@ if command -v gh >/dev/null 2>&1; then
   alias ghr='gh repo'
   alias ghi='gh issue'
   alias ghp='gh pr'
+fi
+
+# ============================================================================
+# Syntax Highlighting
+# ============================================================================
+
+# Load zsh-syntax-highlighting (load last for performance)
+if [[ -f ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+  source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 # ============================================================================
