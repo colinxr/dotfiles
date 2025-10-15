@@ -17,6 +17,14 @@ setopt SHARE_HISTORY
 setopt APPEND_HISTORY
 setopt INC_APPEND_HISTORY
 
+# History Search - up/down arrows search based on what you've typed
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search    # Up arrow
+bindkey "^[[B" down-line-or-beginning-search  # Down arrow
+
 # NVM - lazy loaded (see function at end of file)
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 
@@ -89,6 +97,7 @@ PATH=$PATH:/usr/local/bin
 PATH=$PATH:~/usr/local/bin/composer
 PATH=$PATH:~/.composer/vendor/bin
 PATH=$PATH:/usr/local/mysql/bin
+PATH=$PATH:~/.config/.tmuxifier/bin
 
 # macOS-specific paths
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -167,6 +176,10 @@ fi
 # Lazy load zoxide - initialize in background
 if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init zsh)"
+fi
+
+if command -v tmuxifier >/dev/null @>&1; then
+  eval "$(tmuxifier init -)"
 fi
 
 # Syntax highlighting (load last for performance)
