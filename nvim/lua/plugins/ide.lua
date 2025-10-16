@@ -1,67 +1,5 @@
 -- Full IDE setup with AI completion and diff review
 return {
-  -- AI code completion - copilot-like
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    opts = {
-      suggestion = {
-        enabled = true,
-        auto_trigger = true,
-        keymap = {
-          accept = "<M-l>",  -- Alt-l
-          accept_word = "<M-w>",
-          accept_line = "<M-j>",
-          next = "<M-]>",
-          prev = "<M-[>",
-          dismiss = "<C-]>",
-        },
-      },
-      panel = { enabled = false },
-      filetypes = {
-        yaml = true,
-        markdown = true,
-        help = false,
-        gitcommit = true,
-        gitrebase = false,
-        ["."] = true,
-      },
-    },
-  },
-
-  -- Copilot integration with cmp
-  {
-    "zbirenbaum/copilot-cmp",
-    dependencies = { "copilot.lua" },
-    opts = {},
-    config = function(_, opts)
-      local copilot_cmp = require("copilot_cmp")
-      copilot_cmp.setup(opts)
-      
-      -- Add copilot source to nvim-cmp
-      local cmp = require("cmp")
-      local config = cmp.get_config()
-      table.insert(config.sources, 1, {
-        name = "copilot",
-        group_index = 2,
-      })
-      cmp.setup(config)
-    end,
-  },
-
-  -- Alternative: supermaven (faster than copilot)
-  -- {
-  --   "supermaven-inc/supermaven-nvim",
-  --   opts = {
-  --     keymaps = {
-  --       accept_suggestion = "<Tab>",
-  --       clear_suggestion = "<C-]>",
-  --       accept_word = "<C-j>",
-  --     },
-  --   },
-  -- },
-
   -- Git diff view - cursor-like staging/review workflow
   {
     "sindrets/diffview.nvim",
@@ -119,7 +57,7 @@ return {
       },
       on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
-        
+
         local function map(mode, l, r, desc)
           vim.keymap.set(mode, l, r, { buffer = bufnr, desc = desc })
         end
@@ -127,17 +65,23 @@ return {
         -- Navigation
         map("n", "]h", gs.next_hunk, "Next Hunk")
         map("n", "[h", gs.prev_hunk, "Prev Hunk")
-        
+
         -- Actions
         map("n", "<leader>hs", gs.stage_hunk, "Stage Hunk")
         map("n", "<leader>hr", gs.reset_hunk, "Reset Hunk")
-        map("v", "<leader>hs", function() gs.stage_hunk({vim.fn.line("."), vim.fn.line("v")}) end, "Stage Hunk")
-        map("v", "<leader>hr", function() gs.reset_hunk({vim.fn.line("."), vim.fn.line("v")}) end, "Reset Hunk")
+        map("v", "<leader>hs", function()
+          gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+        end, "Stage Hunk")
+        map("v", "<leader>hr", function()
+          gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+        end, "Reset Hunk")
         map("n", "<leader>hS", gs.stage_buffer, "Stage Buffer")
         map("n", "<leader>hu", gs.undo_stage_hunk, "Undo Stage Hunk")
         map("n", "<leader>hR", gs.reset_buffer, "Reset Buffer")
         map("n", "<leader>hp", gs.preview_hunk, "Preview Hunk")
-        map("n", "<leader>hb", function() gs.blame_line({full=true}) end, "Blame Line")
+        map("n", "<leader>hb", function()
+          gs.blame_line({ full = true })
+        end, "Blame Line")
         map("n", "<leader>hd", gs.diffthis, "Diff This")
       end,
     },
@@ -162,7 +106,9 @@ return {
     keys = {
       {
         "<leader>ca",
-        function() require("actions-preview").code_actions() end,
+        function()
+          require("actions-preview").code_actions()
+        end,
         desc = "Code Action (Preview)",
         mode = { "n", "v" },
       },
@@ -216,20 +162,6 @@ return {
     },
   },
 
-  -- REST client - test APIs like in containers
-  {
-    "rest-nvim/rest.nvim",
-    ft = "http",
-    keys = {
-      { "<leader>rr", "<Plug>RestNvim", desc = "Run HTTP Request" },
-      { "<leader>rp", "<Plug>RestNvimPreview", desc = "Preview HTTP Request" },
-    },
-    opts = {
-      result_split_horizontal = false,
-      skip_ssl_verification = false,
-    },
-  },
-
   -- Treesitter context - keep function signature visible
   {
     "nvim-treesitter/nvim-treesitter-context",
@@ -246,8 +178,20 @@ return {
     dependencies = { "kevinhwang91/promise-async" },
     event = "BufReadPost",
     keys = {
-      { "zR", function() require("ufo").openAllFolds() end, desc = "Open All Folds" },
-      { "zM", function() require("ufo").closeAllFolds() end, desc = "Close All Folds" },
+      {
+        "zR",
+        function()
+          require("ufo").openAllFolds()
+        end,
+        desc = "Open All Folds",
+      },
+      {
+        "zM",
+        function()
+          require("ufo").closeAllFolds()
+        end,
+        desc = "Close All Folds",
+      },
     },
     opts = {
       provider_selector = function()
@@ -340,7 +284,13 @@ return {
     "nvim-pack/nvim-spectre",
     dependencies = { "nvim-lua/plenary.nvim" },
     keys = {
-      { "<leader>sr", function() require("spectre").open() end, desc = "Replace in Files (Spectre)" },
+      {
+        "<leader>sr",
+        function()
+          require("spectre").open()
+        end,
+        desc = "Replace in Files (Spectre)",
+      },
     },
   },
 }

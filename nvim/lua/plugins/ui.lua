@@ -1,17 +1,37 @@
 -- UI enhancements
 return {
-  -- Colorscheme - gruvbox for that warm beer-in-hand vibe
+  -- Colorscheme - catppuccin mocha (modern terminal aesthetic)
   {
-    "ellisonleao/gruvbox.nvim",
+    "catppuccin/nvim",
+    name = "catppuccin",
     priority = 1000,
     opts = {
-      terminal_colors = true,
-      contrast = "hard",
-      italic = {
-        strings = false,
-        emphasis = true,
-        comments = true,
-        folds = true,
+      flavour = "mocha", -- mocha, macchiato, frappe, latte
+      transparent_background = false,
+      term_colors = true,
+      styles = {
+        comments = { "italic" },
+        conditionals = {},
+        loops = {},
+        functions = {},
+        keywords = {},
+        strings = {},
+        variables = {},
+        numbers = {},
+        booleans = {},
+        properties = {},
+        types = {},
+      },
+      integrations = {
+        cmp = true,
+        gitsigns = true,
+        nvimtree = true,
+        treesitter = true,
+        telescope = true,
+        notify = true,
+        mason = true,
+        neotree = true,
+        which_key = true,
       },
     },
   },
@@ -19,7 +39,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "gruvbox",
+      colorscheme = "catppuccin",
     },
   },
 
@@ -107,7 +127,7 @@ return {
     "nvim-lualine/lualine.nvim",
     opts = {
       options = {
-        theme = "gruvbox",
+        theme = "catppuccin",
         component_separators = { left = "|", right = "|" },
         section_separators = { left = "", right = "" },
       },
