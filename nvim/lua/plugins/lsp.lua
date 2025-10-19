@@ -101,7 +101,7 @@ return {
 
   -- Mason - LSP/DAP/linter installer
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = {
       ensure_installed = {
         -- LSP

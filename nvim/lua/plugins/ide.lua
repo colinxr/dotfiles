@@ -293,4 +293,10 @@ return {
       },
     },
   },
+
+  -- Disable problematic blink.cmp plugin
+  {
+    "blink.cmp",
+    enabled = false,
+  },
 }

@@ -60,10 +60,13 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 #
 # Example aliases
 alias lsa="ls -la"
+alias gco="git checkout"
+alias gst="git status"
 alias gamed="git commit --amend --reuse-message HEAD"
-alias gac="ga .; gc -m"
+alias gac="git add -A; git commit -m"
 
-alias zshconf="nvim ~/.zshrc"
+alias zshconf="nvim ~/.config/zsh/.zshrc"
+alias zshconfig-local="nvim ~/.zshrc"
 alias src-zsh="source ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
 
