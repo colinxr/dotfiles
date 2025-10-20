@@ -5,7 +5,7 @@
 -- Auto-reload files when changed externally
 vim.o.autoread = true
 
--- Set line length to 80 characters
-vim.o.textwidth = 80
-vim.o.colorcolumn = "80"
+-- Set line length to 100 characters
+vim.o.textwidth = 100
+vim.o.colorcolumn = "100"
 vim.o.wrap = false

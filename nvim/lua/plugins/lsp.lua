@@ -169,33 +169,6 @@ return {
     },
   },
 
-  -- Linting
-  {
-    "mfussenegger/nvim-lint",
-    opts = {
-      linters_by_ft = {
-        python = { "ruff" },
-        javascript = { "eslint_d" },
-        typescript = { "eslint_d" },
-        sh = { "shellcheck" },
-        bash = { "shellcheck" },
-        dockerfile = { "hadolint" },
-        yaml = { "yamllint" },
-        markdown = { "markdownlint_cli2" },
-      },
-    },
-    config = function(_, opts)
-      local lint = require("lint")
-      lint.linters_by_ft = opts.linters_by_ft
-
-      vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
-        callback = function()
-          require("lint").try_lint()
-        end,
-      })
-    end,
-  },
-
   -- Better TypeScript errors
   {
     "dmmulroy/ts-error-translator.nvim",

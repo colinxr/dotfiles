@@ -10,7 +10,7 @@
 -- Auto-reload files when changed externally
 local group = vim.api.nvim_create_augroup("AutoReadGroup", { clear = true })
 
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+vim.api.nvim_create_autocmd({ "FocusGained" }, {
   group = group,
   pattern = "*",
   command = "checktime",
