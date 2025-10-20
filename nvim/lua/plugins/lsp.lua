@@ -134,6 +134,7 @@ return {
         "eslint_d",
         "hadolint",  -- dockerfile linter
         "yamllint",
+        "markdownlint-cli2",
       },
     },
   },
@@ -160,6 +161,11 @@ return {
         bash = { "shfmt" },
         dockerfile = { "prettier" },
       },
+      formatters = {
+        prettier = {
+          prepend_args = { "--print-width", "80" },
+        },
+      },
       format_on_save = {
         timeout_ms = 500,
         lsp_fallback = true,
@@ -179,6 +185,7 @@ return {
         bash = { "shellcheck" },
         dockerfile = { "hadolint" },
         yaml = { "yamllint" },
+        markdown = { "markdownlint_cli2" },
       },
     },
     config = function(_, opts)

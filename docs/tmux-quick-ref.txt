@@ -1,0 +1,69 @@
+╔════════════════════════════════════════════════════════════════╗
+║                     TMUX QUICK REFERENCE                        ║
+╚════════════════════════════════════════════════════════════════╝
+
+PREFIX
+─────────────────────────────────────────────────────────────────
+  Ctrl+s                  Prefix key (press before other commands)
+
+SESSION MANAGEMENT
+─────────────────────────────────────────────────────────────────
+  Ctrl+s ?                List all keybindings
+  Ctrl+s d                Detach from session
+  Ctrl+s $                Rename session
+  Ctrl+s s                List sessions
+  Ctrl+s new              Create new session
+
+WINDOW MANAGEMENT
+─────────────────────────────────────────────────────────────────
+  Ctrl+s c                Create new window
+  Ctrl+s ,                Rename current window
+  Ctrl+s &                Close current window
+  Ctrl+s 0-9              Switch to window by number
+  Ctrl+s n                Next window
+  Ctrl+s p                Previous window
+  Ctrl+s l                Last used window
+
+PANE MANAGEMENT
+─────────────────────────────────────────────────────────────────
+  Ctrl+s %                Split vertical
+  Ctrl+s "                Split horizontal
+  Ctrl+s h/j/k/l          Navigate panes (vim-style)
+  Ctrl+s x                Close current pane
+  Ctrl+s z                Zoom/unzoom current pane
+  Ctrl+s {                Swap pane with previous
+  Ctrl+s }                Swap pane with next
+
+COPY MODE (VI-STYLE)
+─────────────────────────────────────────────────────────────────
+  Ctrl+s [                Enter copy mode
+  v                       Start selection
+  y                       Copy selection
+  p                       Paste from buffer
+  q                       Exit copy mode
+
+RELOAD CONFIG
+─────────────────────────────────────────────────────────────────
+  Ctrl+s r                Reload tmux configuration
+  tmux source-file ~/.tmux.conf    Reload from command line
+
+PLUGINS (VIM-TMUX-NAVIGATOR)
+─────────────────────────────────────────────────────────────────
+  Ctrl+h/j/k/l            Navigate between tmux panes and vim windows
+                          (works seamlessly between both)
+
+CUSTOM KEYBINDINGS
+─────────────────────────────────────────────────────────────────
+  Ctrl+s m                Format markdown in current pane
+
+TIPS
+─────────────────────────────────────────────────────────────────
+  • Use Ctrl+s d to detach and reattach later with: tmux attach
+  • Mouse is enabled - click panes/windows to select them
+  • Windows and panes start at 1, not 0
+  • Use copy mode to scroll through history
+  • Vim-tmux-navigator lets you use Ctrl+h/j/k/l in both vim and tmux
+
+════════════════════════════════════════════════════════════════
+View this file: cat ~/.config/docs/tmux-quick-ref.txt
+Config file: ~/.config/tmux/.tmux.conf
