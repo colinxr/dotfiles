@@ -6,35 +6,14 @@ This repository contains my personal dotfiles configuration with support for mac
 
 - `zsh/.zshrc` - Main zsh configuration (shared across machines)
 - `zsh/.zshrc.local.example` - Template for machine-specific settings
-- `setup-local-config.sh` - Configuration setup script
-- `setup-server.sh` - Essential server tools installation
-- `setup-desktop.sh` - Full macOS desktop setup
-- `setup-minimal.sh` - Cross-platform essentials
-- `install-analysis.md` - Analysis of package dependencies
+- `scripts/install-core.sh` - Cross-platform core development tools
+- `scripts/install-desktop.sh` - macOS desktop applications and tools
+- `scripts/fix-nvim-server.sh` - Neovim server configuration fix
+- `docs/install-analysis.md` - Analysis of package dependencies
 
-## Quick Setup
+## Quick Start
 
-### New Desktop Machine (macOS)
-
-1. Clone this repository:
-   ```bash
-   git clone <your-repo> ~/.config
-   cd ~/.config
-   ```
-
-2. Run the full desktop setup:
-   ```bash
-   ./setup-desktop.sh
-   ```
-
-3. Configure local settings:
-   ```bash
-   ./setup-local-config.sh
-   ```
-
-4. Edit `~/.zshrc.local` with your machine-specific settings
-
-### New Server Machine (Linux/macOS)
+### New Machine Setup (2 Commands)
 
 1. Clone this repository:
    ```bash
@@ -42,56 +21,85 @@ This repository contains my personal dotfiles configuration with support for mac
    cd ~/.config
    ```
 
-2. Run the server setup:
+2. Install tools:
    ```bash
-   ./setup-server.sh
+   # Core tools (all platforms)
+   ./scripts/install-core.sh
+   
+   # Desktop apps (macOS only)
+   ./scripts/install-desktop.sh
    ```
 
-3. Configure dotfiles:
-   ```bash
-   ./setup-local-config.sh
-   ```
+That's it! Your configuration files are already in place and ready to use.
 
-4. Edit `~/.zshrc.local` with your machine-specific settings
+### Existing Machine
 
-### Minimal Setup (Any Platform)
+Your existing setup continues to work unchanged. Optionally run the scripts to add missing tools.
 
-For quick setup on shared machines, containers, or any platform:
+## Tool Categories
 
-1. Clone this repository:
-   ```bash
-   git clone <your-repo> ~/.config
-   cd ~/.config
-   ```
+### Core Tools (install-core.sh)
+Cross-platform CLI tools for all machines:
 
-2. Run minimal setup:
-   ```bash
-   ./setup-minimal.sh
-   ```
+- **Shell**: zsh
+- **Version Control**: git  
+- **Containerization**: docker
+- **Fuzzy Search**: fzf
+- **Smart Navigation**: zoxide
+- **Syntax Highlighting**: bat
+- **GitHub CLI**: gh
+- **Editor**: nvim
+- **Terminal Multiplexer**: tmux
 
-3. Configure local settings:
-   ```bash
-   ./setup-local-config.sh
-   ```
+### Desktop Tools (install-desktop.sh)
+macOS GUI applications and development tools:
 
-4. Edit `~/.zshrc.local` with your machine-specific settings
+- **Browsers**: Chrome, Firefox, Arc
+- **Development GUI**: Cursor, Postman, TablePlus
+- **Communication**: Slack
+- **Productivity**: Notion, Notion Calendar, Raycast, Rectangle, f.lux
+- **Media**: VLC, Tidal
+- **Terminal**: Ghostty
+- **Development**: tmuxifier, opencode
 
-### Configuration-Only Setup (Existing Machine)
+## Configuration Management
 
-If you just want to configure dotfiles on an existing machine:
+### Philosophy
+- **Your configs in `~/.config/`** are the source of truth
+- **No configuration generation** by installation scripts  
+- **No `~/.zshrc` sourcing stub needed** - zsh loads `~/.config/zsh/.zshrc` automatically
+- **Machine-specific settings** go in `~/.zshrc.local` (gitignored)
+- **Zero conflicts** with existing configurations
 
-1. Clone this repository:
-   ```bash
-   git clone <your-repo> ~/.config
-   cd ~/.config
-   ```
+### What Goes Where
 
-2. Run configuration setup:
-   ```bash
-   ./setup-local-config.sh
-   ```
+#### In `~/.config/` (shared, version controlled):
+- All configuration files in this repository
+- Plugin configurations, general aliases, common PATH modifications
+- Shared environment variables and tool settings
 
-3. Edit `~/.zshrc.local` with your machine-specific settings
+#### In `~/.zshrc.local` (machine-specific, gitignored):
+- API keys and secrets
+- Machine-specific PATH modifications  
+- Project-specific environment variables
+- Local aliases and shortcuts
+- Machine-specific tool configurations
+
+### Example Local Configuration
+
+```bash
+# Machine-specific PATH
+export PATH="/custom/tool/bin:$PATH"
+
+# API keys (NEVER commit these)
+export GROQ_API_KEY="your-key-here"
+
+# Project-specific settings
+export NODE_EXTRA_CA_CERTS=/path/to/project/cert.pem
+
+# Local aliases
+alias myproject="cd ~/Projects/myproject"
+```
 
 ## Local Configuration Pattern
 
