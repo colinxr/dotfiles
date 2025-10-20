@@ -1,5 +1,5 @@
 # /Users/colin/.config/tmuxinator/evelyn.yml
-
+---
 name: evelyn
 root: ~/Projects/evelyn/
 
@@ -45,12 +45,14 @@ root: ~/Projects/evelyn/
 # attach: false
 
 windows:
-  - editor:
-      layout: main-vertical
-      # Synchronize all panes of this window, can be enabled before or after the pane commands run.
-      # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
-      # synchronize: after
+  - Dev:
+      layout: bb06,179x53,0,0{113x53,0,0[113x42,0,0,0,113x10,0,43,2],65x53,114,0,1}
       panes:
-        - #
-        - # 
-  - lazygit: lazygit
+        - nvim
+        -
+        - opencode
+  - lazygit:
+      layout: bec0,179x53,0,0,3
+      panes:
+        - lazygit
+  - docker: lazydocker
