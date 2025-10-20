@@ -9,70 +9,70 @@ echo "🚀 Setting up full macOS desktop development environment..."
 
 # Check if running on macOS
 if [[ "$OSTYPE" != "darwin"* ]]; then
-    echo "❌ This script is designed for macOS only"
-    exit 1
+  echo "❌ This script is designed for macOS only"
+  exit 1
 fi
 
 # Function to check if command exists
 command_exists() {
-    command -v "$1" >/dev/null 2>&1
+  command -v "$1" >/dev/null 2>&1
 }
 
 # Function to install Homebrew if not present
 install_homebrew() {
-    if command_exists brew; then
-        echo "✅ Homebrew already installed"
-        return 0
-    fi
-    
-    echo "📦 Installing Homebrew..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    
-    # Add Homebrew to PATH for Apple Silicon Macs
-    if [[ -f /opt/homebrew/bin/brew ]]; then
-        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-    fi
+  if command_exists brew; then
+    echo "✅ Homebrew already installed"
+    return 0
+  fi
+
+  echo "📦 Installing Homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  # Add Homebrew to PATH for Apple Silicon Macs
+  if [[ -f /opt/homebrew/bin/brew ]]; then
+    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zprofile
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
 }
 
 # Function to install Xcode Command Line Tools
 install_xcode_tools() {
-    if xcode-select -p >/dev/null 2>&1; then
-        echo "✅ Xcode Command Line Tools already installed"
-        return 0
-    fi
-    
-    echo "📦 Installing Xcode Command Line Tools..."
-    xcode-select --install
-    echo "⚠️  Please complete the Xcode Command Line Tools installation in the popup window"
+  if xcode-select -p >/dev/null 2>&1; then
+    echo "✅ Xcode Command Line Tools already installed"
+    return 0
+  fi
+
+  echo "📦 Installing Xcode Command Line Tools..."
+  xcode-select --install
+  echo "⚠️  Please complete the Xcode Command Line Tools installation in the popup window"
 }
 
 # Function to install Homebrew package
 install_brew_package() {
-    local package=$1
-    local name=$2
-    
-    if brew list "$package" >/dev/null 2>&1; then
-        echo "✅ $name already installed"
-        return 0
-    fi
-    
-    echo "📦 Installing $name..."
-    brew install "$package"
+  local package=$1
+  local name=$2
+
+  if brew list "$package" >/dev/null 2>&1; then
+    echo "✅ $name already installed"
+    return 0
+  fi
+
+  echo "📦 Installing $name..."
+  brew install "$package"
 }
 
 # Function to install Homebrew cask
 install_brew_cask() {
-    local package=$1
-    local name=$2
-    
-    if brew list --cask "$package" >/dev/null 2>&1; then
-        echo "✅ $name already installed"
-        return 0
-    fi
-    
-    echo "📦 Installing $name..."
-    brew install --cask "$package"
+  local package=$1
+  local name=$2
+
+  if brew list --cask "$package" >/dev/null 2>&1; then
+    echo "✅ $name already installed"
+    return 0
+  fi
+
+  echo "📦 Installing $name..."
+  brew install --cask "$package"
 }
 
 # Install system dependencies
@@ -90,6 +90,7 @@ install_brew_package "bat" "bat"
 install_brew_package "gh" "GitHub CLI"
 install_brew_package "lazygit" "lazygit"
 install_brew_package "lazydocker" "lazydocker"
+install_brew_package "opencode" "opencode"
 
 # Install desktop applications
 echo "🖥️ Installing desktop applications..."
@@ -124,8 +125,8 @@ install_brew_cask "ghostty" "Ghostty"
 
 # Install zsh-syntax-highlighting
 if [[ ! -d ~/.zsh-syntax-highlighting ]]; then
-    echo "📦 Installing zsh-syntax-highlighting..."
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh-syntax-highlighting
+  echo "📦 Installing zsh-syntax-highlighting..."
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh-syntax-highlighting
 fi
 
 # Set up configuration files
@@ -136,10 +137,10 @@ mkdir -p ~/.config/{zsh,git,ghostty,tmux}
 
 # Copy zsh configuration
 if [[ -f ~/.config/zsh/.zshrc ]]; then
-    echo "✅ zsh configuration already exists"
+  echo "✅ zsh configuration already exists"
 else
-    echo "📋 Creating zsh configuration..."
-    cat > ~/.config/zsh/.zshrc << 'EOF'
+  echo "📋 Creating zsh configuration..."
+  cat >~/.config/zsh/.zshrc <<'EOF'
 # Full desktop zsh configuration
 
 # Enable colors
@@ -223,16 +224,16 @@ fi
 
 # Copy git configuration
 if [[ -f ~/.config/git/gitconfig ]]; then
-    echo "✅ git configuration already exists"
+  echo "✅ git configuration already exists"
 else
-    echo "📋 Creating git configuration..."
-    cat > ~/.config/git/gitconfig << 'EOF'
+  echo "📋 Creating git configuration..."
+  cat >~/.config/git/gitconfig <<'EOF'
 [user]
     name = Your Name
     email = your.email@example.com
 
 [core]
-    editor = cursor --wait
+    editor = nvim --wait
     excludesfile = ~/.gitignore_global
 
 [init]
@@ -263,10 +264,10 @@ fi
 
 # Copy ghostty configuration
 if [[ -f ~/.config/ghostty/config ]]; then
-    echo "✅ ghostty configuration already exists"
+  echo "✅ ghostty configuration already exists"
 else
-    echo "📋 Creating ghostty configuration..."
-    cat > ~/.config/ghostty/config << 'EOF'
+  echo "📋 Creating ghostty configuration..."
+  cat >~/.config/ghostty/config <<'EOF'
 # Ghostty terminal configuration
 
 # Font
@@ -360,10 +361,10 @@ fi
 
 # Copy tmux configuration
 if [[ -f ~/.config/tmux/.tmux.conf ]]; then
-    echo "✅ tmux configuration already exists"
+  echo "✅ tmux configuration already exists"
 else
-    echo "📋 Creating tmux configuration..."
-    cat > ~/.config/tmux/.tmux.conf << 'EOF'
+  echo "📋 Creating tmux configuration..."
+  cat >~/.config/tmux/.tmux.conf <<'EOF'
 # tmux configuration
 
 # Set default terminal mode to 256color mode
@@ -455,36 +456,36 @@ fi
 
 # Set zsh as default shell if not already
 if [[ "$SHELL" != *"zsh"* ]]; then
-    echo "🔄 Setting zsh as default shell..."
-    chsh -s $(which zsh)
-    echo "⚠️  Please restart your terminal or run 'exec zsh' to use zsh"
+  echo "🔄 Setting zsh as default shell..."
+  chsh -s $(which zsh)
+  echo "⚠️  Please restart your terminal or run 'exec zsh' to use zsh"
 fi
 
 # Install VS Code extensions (if cursor is available)
 if command_exists cursor; then
-    echo "🔌 Installing Cursor extensions..."
-    
-    # List of extensions to install
-    extensions=(
-        "eamodio.gitlens"
-        "sasa.vscode-pigments"
-        "robinbentley.sass-indented"
-        "ms-python.python"
-        "bmewburn.vscode-intelephense-client"
-        "vincaslt.highlight-matching-tag"
-        "dbaeumer.vscode-eslint"
-        "esbenp.prettier-vscode"
-        "mgmcdermott.vscode-language-babel"
-    )
-    
-    for extension in "${extensions[@]}"; do
-        if cursor --list-extensions | grep -q "$extension"; then
-            echo "✅ Extension $extension already installed"
-        else
-            echo "📦 Installing extension: $extension"
-            cursor --install-extension "$extension"
-        fi
-    done
+  echo "🔌 Installing Cursor extensions..."
+
+  # List of extensions to install
+  extensions=(
+    "eamodio.gitlens"
+    "sasa.vscode-pigments"
+    "robinbentley.sass-indented"
+    "ms-python.python"
+    "bmewburn.vscode-intelephense-client"
+    "vincaslt.highlight-matching-tag"
+    "dbaeumer.vscode-eslint"
+    "esbenp.prettier-vscode"
+    "mgmcdermott.vscode-language-babel"
+  )
+
+  for extension in "${extensions[@]}"; do
+    if cursor --list-extensions | grep -q "$extension"; then
+      echo "✅ Extension $extension already installed"
+    else
+      echo "📦 Installing extension: $extension"
+      cursor --install-extension "$extension"
+    fi
+  done
 fi
 
 echo "✅ Desktop setup complete!"
