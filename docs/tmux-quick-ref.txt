@@ -56,6 +56,20 @@ CUSTOM KEYBINDINGS
 ─────────────────────────────────────────────────────────────────
   Ctrl+s m                Format markdown in current pane
 
+TMUXINATOR ALIASES
+─────────────────────────────────────────────────────────────────
+  tms-dot                 Start dotfiles session
+  tms-eve                 Start evelyn session
+  tms-fol                 Start follett session
+  tml                     List all tmuxinator projects
+  tmk <session>           Kill specific session
+  tmks                    Kill all tmux sessions
+  tme <project>           Edit tmuxinator project config
+  tme-dot/tme-eve/tme-fol Edit specific project configs
+  tma <session>           Attach to session
+  tmls                    List all tmux sessions
+  tmns <name>             Create new session
+
 TIPS
 ─────────────────────────────────────────────────────────────────
   • Use Ctrl+s d to detach and reattach later with: tmux attach
@@ -63,7 +77,9 @@ TIPS
   • Windows and panes start at 1, not 0
   • Use copy mode to scroll through history
   • Vim-tmux-navigator lets you use Ctrl+h/j/k/l in both vim and tmux
+  • Use tmuxinator aliases for quick project setup
 
-════════════════════════════════════════════════════════════════
+═══════════════════════════════════════════════════════════════
 View this file: cat ~/.config/docs/tmux-quick-ref.txt
 Config file: ~/.config/tmux/.tmux.conf
+Tmuxinator configs: ~/.config/tmuxinator/

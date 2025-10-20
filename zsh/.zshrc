@@ -88,10 +88,22 @@ alias cur="proj; curology"
 alias pok="proj; cd PocketDerm"
 alias con="proj; conductor"
 alias foll="proj; cd follett"
-alias op="tmuxinator"
+alias tms="tmuxinator start"
 
-alias eve="proj; cd evelyn"
-alias jnc="proj; junction-bank"
+# Tmuxinator aliases
+alias tms-dot="tmuxinator start dotfiles"
+alias tms-eve="tmuxinator start evelyn" 
+alias tms-fol="tmuxinator start follett"
+alias tml="tmuxinator list"
+alias tmk="tmux kill-session -t"
+alias tmks="tmux kill-server"
+alias tme="tmuxinator edit"
+alias tme-dot="tmuxinator edit dotfiles"
+alias tme-eve="tmuxinator edit evelyn"
+alias tme-fol="tmuxinator edit follett"
+alias tma="tmux attach -t"
+alias tmls="tmux ls"
+alias tmns="tmux new-session -s"
 
 PATH=$PATH:~/bin
 PATH=$PATH:~/usr/bin
