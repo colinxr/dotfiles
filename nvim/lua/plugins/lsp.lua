@@ -15,7 +15,7 @@ return {
             },
           },
         },
-        
+
         -- Python
         pyright = {
           settings = {
@@ -28,8 +28,8 @@ return {
             },
           },
         },
-        ruff_lsp = {},  -- Python linter/formatter
-        
+        ruff_lsp = {}, -- Python linter/formatter
+
         -- Rust
         rust_analyzer = {
           settings = {
@@ -40,7 +40,7 @@ return {
             },
           },
         },
-        
+
         -- Go
         gopls = {
           settings = {
@@ -53,18 +53,18 @@ return {
             },
           },
         },
-        
+
         -- TypeScript/JavaScript
         tsserver = {},
-        
+
         -- Web
         html = {},
         cssls = {},
         tailwindcss = {},
-        
+
         -- Terraform/HCL
         terraformls = {},
-        
+
         -- YAML/JSON
         yamlls = {
           settings = {
@@ -78,18 +78,18 @@ return {
           },
         },
         jsonls = {},
-        
+
         -- Dockerfile
         dockerls = {},
         docker_compose_language_service = {},
-        
+
         -- Bash
         bashls = {},
-        
+
         -- Markdown
         marksman = {},
       },
-      
+
       -- LSP keymaps
       setup = {
         ["*"] = function(server, opts)
@@ -119,7 +119,7 @@ return {
         "bash-language-server",
         "terraform-ls",
         "marksman",
-        
+
         -- Formatters
         "stylua",
         "black",
@@ -128,11 +128,11 @@ return {
         "gofumpt",
         "goimports",
         "shfmt",
-        
+
         -- Linters
         "shellcheck",
         "eslint_d",
-        "hadolint",  -- dockerfile linter
+        "hadolint", -- dockerfile linter
         "yamllint",
         "markdownlint-cli2",
       },
@@ -166,10 +166,6 @@ return {
           prepend_args = { "--print-width", "80" },
         },
       },
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_fallback = true,
-      },
     },
   },
 
@@ -191,7 +187,7 @@ return {
     config = function(_, opts)
       local lint = require("lint")
       lint.linters_by_ft = opts.linters_by_ft
-      
+
       vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
         callback = function()
           require("lint").try_lint()
@@ -271,17 +267,28 @@ return {
     "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = {
-        "lua", "vim", "vimdoc",
+        "lua",
+        "vim",
+        "vimdoc",
         "python",
         "rust",
         "go",
-        "javascript", "typescript", "tsx", "jsx",
-        "html", "css",
-        "json", "jsonc", "yaml", "toml",
+        "javascript",
+        "typescript",
+        "tsx",
+        "jsx",
+        "html",
+        "css",
+        "json",
+        "jsonc",
+        "yaml",
+        "toml",
         "bash",
         "dockerfile",
-        "hcl", "terraform",
-        "markdown", "markdown_inline",
+        "hcl",
+        "terraform",
+        "markdown",
+        "markdown_inline",
         "regex",
         "sql",
       },

@@ -67,7 +67,7 @@ alias gac="git add -A; git commit -m"
 
 alias zshconf="nvim ~/.config/zsh/.zshrc"
 alias zshconfig-local="nvim ~/.zshrc"
-alias src-zsh="source ~/.zshrc"
+alias src-zsh="source ~/.config/zsh/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
 
 alias ghosttyconf="nvim ~/.config/ghostty/config"
@@ -87,7 +87,6 @@ alias vapor="php vendor/bin/vapor"
 alias cur="proj; curology"
 alias pok="proj; cd PocketDerm"
 alias con="proj; conductor"
-alias foll="proj; cd follett"
 alias tms="tmuxinator start"
 
 # Tmuxinator aliases
@@ -112,7 +111,6 @@ PATH=$PATH:/usr/local/bin
 PATH=$PATH:~/usr/local/bin/composer
 PATH=$PATH:~/.composer/vendor/bin
 PATH=$PATH:/usr/local/mysql/bin
-PATH=$PATH:~/.config/.tmuxifier/bin
 
 # macOS-specific paths
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -191,10 +189,6 @@ fi
 # Lazy load zoxide - initialize in background
 if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init zsh)"
-fi
-
-if command -v tmuxifier >/dev/null @>&1; then
-  eval "$(tmuxifier init -)"
 fi
 
 # Syntax highlighting (load last for performance)
