@@ -10,11 +10,11 @@ map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
 map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
 map("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 
--- Resize with arrows
-map("n", "<C-Up>", ":resize -2<CR>", { desc = "Decrease window height" })
-map("n", "<C-Down>", ":resize +2<CR>", { desc = "Increase window height" })
-map("n", "<C-Left>", ":vertical resize -2<CR>", { desc = "Decrease window width" })
-map("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase window width" })
+-- Resize with alt arrows
+map("n", "<M-Up>", ":resize -2<CR>", { desc = "Decrease window height" })
+map("n", "<M-Down>", ":resize +2<CR>", { desc = "Increase window height" })
+map("n", "<M-Left>", ":vertical resize -2<CR>", { desc = "Decrease window width" })
+map("n", "<M-Right>", ":vertical resize +2<CR>", { desc = "Increase window width" })
 
 -- Buffer navigation
 map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
@@ -43,8 +43,8 @@ map("n", "N", "Nzzzv", { desc = "Prev search result (centered)" })
 map("x", "<leader>p", '"_dP', { desc = "Paste without yanking" })
 
 -- Quick save
-map("n", "<C-s>", "<cmd>w<cr>", { desc = "Save file" })
-map("i", "<C-s>", "<Esc><cmd>w<cr>a", { desc = "Save file" })
+map("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file" })
+map("i", "<leader>w", "<Esc><cmd>w<cr>a", { desc = "Save file" })
 
 -- Quick quit
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })

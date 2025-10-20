@@ -1,20 +1,19 @@
 ╔════════════════════════════════════════════════════════════════╗
-║              NEOVIM MINIMAL CONFIG - QUICK REFERENCE           ║
+║                NEOVIM LAZYVIM CONFIG - QUICK REFERENCE          ║
 ╚════════════════════════════════════════════════════════════════╝
 
 OPENING FILES
 ─────────────────────────────────────────────────────────────────
   nvim filename.txt       Open specific file from command line
   :e filename.txt         Open file from within nvim
-  :Ex                     Open file explorer (netrw)
-  :e .                    Browse current directory
+  Leader + e              Toggle NeoTree file explorer
+  Leader + o              Focus NeoTree file explorer
 
 ESSENTIAL KEYS
 ─────────────────────────────────────────────────────────────────
-  Space                   Leader key (prefix for commands)
-  Space + w               Save file (:w)
-  Space + q               Quit (:q)
-  Space + e               File explorer (:Ex)
+  Leader                  Leader key (prefix for commands)
+  Leader + w              Save file
+  Leader + qq             Quit all
   Esc                     Clear search highlight
 
 NAVIGATION
@@ -23,7 +22,9 @@ NAVIGATION
   w / b                   Next/previous word
   gg / G                  Go to top/bottom of file
   Ctrl+d / Ctrl+u         Scroll half page down/up (centered)
-  n / N                   Next/previous search result
+  n / N                   Next/previous search result (centered)
+  Shift+h / Shift+l       Previous/next buffer
+  Ctrl+h/j/k/l            Navigate between windows
 
 EDITING
 ─────────────────────────────────────────────────────────────────
@@ -40,8 +41,9 @@ VISUAL MODE (SELECTION)
 ─────────────────────────────────────────────────────────────────
   v                       Visual mode (character selection)
   V                       Visual line mode
-  J (in visual)           Move selection down
-  K (in visual)           Move selection up
+  J / K (in visual)       Move text down/up
+  < / > (in visual)       Indent left/right (stay in visual)
+  Leader + p (in visual)  Paste without yanking replaced text
 
 SEARCHING
 ─────────────────────────────────────────────────────────────────
@@ -69,17 +71,67 @@ FILE EXPLORER (:Ex)
 
 WINDOW MANAGEMENT
 ─────────────────────────────────────────────────────────────────
-  :sp filename            Horizontal split
-  :vsp filename           Vertical split
-  Ctrl+w then h/j/k/l     Navigate between windows
-  Ctrl+w then q           Close current window
+  Leader + -              Horizontal split
+  Leader + |              Vertical split
+  Ctrl+h/j/k/l            Navigate between windows
+  Alt+arrows              Resize windows
+  Leader + bd             Delete buffer
+  Leader + bD             Delete buffer and window
+
+TELESCOPE (FUZZY FINDING)
+─────────────────────────────────────────────────────────────────
+  Leader + ff             Find files
+  Leader + fg             Live grep
+  Leader + fb             Find buffers
+  Leader + fr             Recent files
+  Leader + fs             Grep string under cursor
+  Leader + fh             Help tags
+
+LSP (LANGUAGE SERVER PROTOCOL)
+─────────────────────────────────────────────────────────────────
+  gd                      Go to definition
+  gr                      Go to references
+  gI                      Go to implementation
+  Leader + ca             Code actions
+  Leader + rn             Rename symbol
+  K                       Hover documentation
+  [d / ]d                 Previous/next diagnostic
+  Leader + e              Show diagnostic error messages
+
+GIT INTEGRATION
+─────────────────────────────────────────────────────────────────
+  Leader + gs             Git status
+  Leader + gb             Git branches
+  Leader + gl             Git commits
+
+TOGGLES & UTILITIES
+─────────────────────────────────────────────────────────────────
+  Leader + uw             Toggle word wrap
+  Leader + us             Toggle spell check
+  Leader + un             Toggle line numbers
+  Leader + cf             Format buffer
+  Leader + l              Open Lazy
+  Leader + cm             Open Mason
+
+TABS
+─────────────────────────────────────────────────────────────────
+  Leader + <tab><tab>     New tab
+  Leader + <tab>]         Next tab
+  Leader + <tab>[         Previous tab
+  Leader + <tab>d         Close tab
+  Leader + <tab>f         First tab
+  Leader + <tab>l         Last tab
+
+TERMINAL
+─────────────────────────────────────────────────────────────────
+  Esc + Esc               Exit terminal mode
 
 TIPS
 ─────────────────────────────────────────────────────────────────
-  • This is a MINIMAL config - no plugins, no auto-complete
-  • Press Space+e to browse files (netrw file explorer)
-  • Always use :w to save before :q to quit
-  • Press Esc to get back to normal mode if stuck
+  • This is a LazyVim config with plugins and LSP support
+  • Press Leader+e to toggle NeoTree file explorer
+  • Use Ctrl+s to save quickly
+  • Press Esc to clear search highlights
   • Use :help <topic> for built-in help (e.g., :help motion)
 
 FIX CRASHED NVIM
@@ -88,7 +140,7 @@ FIX CRASHED NVIM
   
   ~/.config/scripts/fix-nvim-server.sh
   
-  This replaces the full config with this minimal version.
+  This replaces the full config with a minimal version.
 
 ═════════════════════════════════════════════════════════════════
 View this file: cat ~/.config/docs/nvim-quick-ref.txt

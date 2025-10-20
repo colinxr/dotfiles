@@ -2,36 +2,37 @@
 
 ## **Strategy: Nuclear Reset**
 
-Completely rebuild from scratch with 2 focused scripts that only install tools - zero configuration generation.
+Completely rebuild from scratch with 2 focused scripts that only install tools -
+zero configuration generation.
 
 ## **New Script Architecture**
 
 ### **`install-core.sh`** - Universal Core Tools
 
-**Purpose**: Install essential development tools on ALL machines (servers, desktops, containers)
-**Scope**: Cross-platform CLI tools only
-**Tools**: zsh, git, docker, fzf, zoxide, bat, gh, nvim, tmux
-**Platforms**: macOS (Homebrew) + Linux (apt/dnf/yum/pacman)
+**Purpose**: Install essential development tools on ALL machines (servers,
+desktops, containers) **Scope**: Cross-platform CLI tools only **Tools**: zsh,
+git, docker, fzf, zoxide, bat, gh, nvim, tmux **Platforms**: macOS (Homebrew) +
+Linux (apt/dnf/yum/pacman)
 
 ### **`install-desktop.sh`** - Desktop Development Tools
 
-**Purpose**: Install GUI applications and local development tools
-**Scope**: macOS desktop applications only
-**Tools**: Browsers, editors, productivity apps, tmuxifier, opencode
-**Platform**: macOS only (Homebrew casks)
+**Purpose**: Install GUI applications and local development tools **Scope**:
+macOS desktop applications only **Tools**: Browsers, editors, productivity apps,
+tmuxifier, opencode **Platform**: macOS only (Homebrew casks)
 
 ## **Configuration Philosophy**
 
 - **Your configs in `~/.config/`** are the source of truth
 - **No configuration generation** by installation scripts
-- **No `~/.zshrc` sourcing stub needed** - zsh loads `~/.config/zsh/.zshrc` automatically
+- **No `~/.zshrc` sourcing stub needed** - zsh loads `~/.config/zsh/.zshrc`
+  automatically
 - **Machine-specific settings** go in `~/.zshrc.local` (gitignored)
 - **Zero conflicts** with existing configurations
 
 ## **Branch Strategy**
 
-**Branch**: `feature/nuke` (created from main)
-**Merge Strategy**: Squash merge when complete
+**Branch**: `feature/nuke` (created from main) **Merge Strategy**: Squash merge
+when complete
 
 ## **Commit Plan (7 Steps)**
 
