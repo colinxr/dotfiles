@@ -6,14 +6,14 @@ OPENING FILES
 ─────────────────────────────────────────────────────────────────
   nvim filename.txt       Open specific file from command line
   :e filename.txt         Open file from within nvim
-  Leader + e              Toggle NeoTree file explorer
-  Leader + o              Focus NeoTree file explorer
+  \ + e                   Toggle NeoTree file explorer
+  \ + o                   Focus NeoTree file explorer
 
 ESSENTIAL KEYS
 ─────────────────────────────────────────────────────────────────
-  Leader                  Leader key (prefix for commands)
-  Leader + w              Save file
-  Leader + qq             Quit all
+  \ (backslash)           Leader key (prefix for commands)
+  \ + w                   Save file
+  \ + qq                  Quit all
   Esc                     Clear search highlight
 
 NAVIGATION
@@ -43,7 +43,7 @@ VISUAL MODE (SELECTION)
   V                       Visual line mode
   J / K (in visual)       Move text down/up
   < / > (in visual)       Indent left/right (stay in visual)
-  Leader + p (in visual)  Paste without yanking replaced text
+  \ + p (in visual)       Paste without yanking replaced text
 
 SEARCHING
 ─────────────────────────────────────────────────────────────────
@@ -71,56 +71,56 @@ FILE EXPLORER (:Ex)
 
 WINDOW MANAGEMENT
 ─────────────────────────────────────────────────────────────────
-  Leader + -              Horizontal split
-  Leader + |              Vertical split
+  \ + -                   Horizontal split
+  \ + |                   Vertical split
   Ctrl+h/j/k/l            Navigate between windows
   Alt+arrows              Resize windows
-  Leader + bd             Delete buffer
-  Leader + bD             Delete buffer and window
+  \ + bd                  Delete buffer
+  \ + bD                  Delete buffer and window
 
 TELESCOPE (FUZZY FINDING)
 ─────────────────────────────────────────────────────────────────
-  Leader + ff             Find files
-  Leader + fg             Live grep
-  Leader + fb             Find buffers
-  Leader + fr             Recent files
-  Leader + fs             Grep string under cursor
-  Leader + fh             Help tags
+  \ + ff                  Find files
+  \ + fg                  Live grep
+  \ + fb                  Find buffers
+  \ + fr                  Recent files
+  \ + fs                  Grep string under cursor
+  \ + fh                  Help tags
 
 LSP (LANGUAGE SERVER PROTOCOL)
 ─────────────────────────────────────────────────────────────────
   gd                      Go to definition
   gr                      Go to references
   gI                      Go to implementation
-  Leader + ca             Code actions
-  Leader + rn             Rename symbol
+  \ + ca                  Code actions
+  \ + rn                  Rename symbol
   K                       Hover documentation
   [d / ]d                 Previous/next diagnostic
-  Leader + e              Show diagnostic error messages
+  \ + e                   Show diagnostic error messages
 
 GIT INTEGRATION
 ─────────────────────────────────────────────────────────────────
-  Leader + gs             Git status
-  Leader + gb             Git branches
-  Leader + gl             Git commits
+  \ + gs                  Git status
+  \ + gb                  Git branches
+  \ + gl                  Git commits
 
 TOGGLES & UTILITIES
 ─────────────────────────────────────────────────────────────────
-  Leader + uw             Toggle word wrap
-  Leader + us             Toggle spell check
-  Leader + un             Toggle line numbers
-  Leader + cf             Format buffer
-  Leader + l              Open Lazy
-  Leader + cm             Open Mason
+  \ + uw                  Toggle word wrap
+  \ + us                  Toggle spell check
+  \ + un                  Toggle line numbers
+  \ + cf                  Format buffer
+  \ + l                   Open Lazy
+  \ + cm                  Open Mason
 
 TABS
 ─────────────────────────────────────────────────────────────────
-  Leader + <tab><tab>     New tab
-  Leader + <tab>]         Next tab
-  Leader + <tab>[         Previous tab
-  Leader + <tab>d         Close tab
-  Leader + <tab>f         First tab
-  Leader + <tab>l         Last tab
+  \ + <tab><tab>           New tab
+  \ + <tab>]              Next tab
+  \ + <tab>[              Previous tab
+  \ + <tab>d              Close tab
+  \ + <tab>f              First tab
+  \ + <tab>l              Last tab
 
 TERMINAL
 ─────────────────────────────────────────────────────────────────
@@ -129,7 +129,7 @@ TERMINAL
 TIPS
 ─────────────────────────────────────────────────────────────────
   • This is a LazyVim config with plugins and LSP support
-  • Press Leader+e to toggle NeoTree file explorer
+  • Press \+e to toggle NeoTree file explorer
   • Use Ctrl+s to save quickly
   • Press Esc to clear search highlights
   • Use :help <topic> for built-in help (e.g., :help motion)
