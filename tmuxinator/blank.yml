@@ -1,0 +1,18 @@
+# Template for project tmuxinator configurations
+# Copy this file and replace PROJECT_NAME with your project name
+# Replace PROJECT_PATH with your project path under ~/Projects/
+---
+name: Fresh Session
+root: ~/Projects
+
+windows:
+  - Dev:
+      layout: bb06,179x53,0,0{113x53,0,0[113x42,0,0,0,113x10,0,43,2],65x53,114,0,1}
+      panes:
+        - nvim
+        -
+        - opencode
+  - lazygit:
+      layout: bec0,179x53,0,0,3
+      panes:
+        - lazygit
