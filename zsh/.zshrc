@@ -200,3 +200,16 @@ fi
 if [[ -f ~/.zshrc.local ]]; then
   source ~/.zshrc.local
 fi
+
+# opencode
+export PATH=/Users/colin/.opencode/bin:$PATH
+export VOLTA_FEATURE_PNPM=1
+export NODE_EXTRA_CA_CERTS=/Users/colin/Projects/curology/local-development/packages/local-proxy/tls/combined.pem
+
+
+# Herd injected PHP 8.4 configuration.
+export HERD_PHP_84_INI_SCAN_DIR="/Users/colin/Library/Application Support/Herd/config/php/84/"
+
+
+# Herd injected PHP 8.3 configuration.
+export HERD_PHP_83_INI_SCAN_DIR="/Users/colin/Library/Application Support/Herd/config/php/83/"

@@ -25,27 +25,6 @@ return {
     },
   },
 
-  -- Neogit - magit-style git interface
-  {
-    "NeogitOrg/neogit",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "sindrets/diffview.nvim",
-      "nvim-telescope/telescope.nvim",
-    },
-    cmd = "Neogit",
-    keys = {
-      { "<leader>gg", "<cmd>Neogit<cr>", desc = "Neogit" },
-      { "<leader>gC", "<cmd>Neogit commit<cr>", desc = "Neogit: Commit" },
-    },
-    opts = {
-      integrations = {
-        diffview = true,
-      },
-      graph_style = "unicode",
-    },
-  },
-
   -- Git signs with inline blame
   {
     "lewis6991/gitsigns.nvim",
@@ -231,37 +210,6 @@ return {
     },
   },
 
-  -- Terminal integration
-  {
-    "akinsho/toggleterm.nvim",
-    version = "*",
-    keys = {
-      { "<C-\\>", "<cmd>ToggleTerm<cr>", desc = "Toggle Terminal", mode = { "n", "t" } },
-      { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Terminal: Float" },
-      { "<leader>th", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Terminal: Horizontal" },
-      { "<leader>tv", "<cmd>ToggleTerm direction=vertical size=80<cr>", desc = "Terminal: Vertical" },
-    },
-    opts = {
-      size = function(term)
-        if term.direction == "horizontal" then
-          return 15
-        elseif term.direction == "vertical" then
-          return vim.o.columns * 0.4
-        end
-      end,
-      open_mapping = [[<C-\>]],
-      hide_numbers = true,
-      shade_terminals = true,
-      shading_factor = 2,
-      start_in_insert = true,
-      persist_size = true,
-      direction = "float",
-      float_opts = {
-        border = "curved",
-      },
-    },
-  },
-
   -- Better quickfix
   {
     "kevinhwang91/nvim-bqf",
@@ -293,7 +241,7 @@ return {
   -- Disable problematic blink.cmp plugin
   {
     "blink.cmp",
-    enabled = false,
+    enabled = true,
   },
 
   {
@@ -311,7 +259,7 @@ return {
       -- Required for `vim.g.opencode_opts.auto_reload`.
       vim.o.autoread = true
 
-      -- Recommended/example keymaps.
+      -- Recommended/example keymaps
       vim.keymap.set({ "n", "x" }, "<leader>oa", function()
         require("opencode").ask("@this: ", { submit = true })
       end, { desc = "Ask about this" })
@@ -345,4 +293,3 @@ return {
     end,
   },
 }
-

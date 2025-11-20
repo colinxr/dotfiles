@@ -6,6 +6,7 @@ background-blur-radius = 7
 cursor-style = bar
 font-size = 16
 macos-non-native-fullscreen = true
+macos-option-as-alt = true
 theme=catpuccin-mocha.conf
 
 
