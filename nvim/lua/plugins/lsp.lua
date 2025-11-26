@@ -88,6 +88,52 @@ return {
 
         -- Markdown
         marksman = {},
+
+        -- PHP
+        intelephense = {
+          settings = {
+            intelephense = {
+              files = {
+                maxSize = 5000000,
+                exclude = {"**/vendor/**", "**/node_modules/**", "**/.git/**"},
+              },
+              environment = {
+                includePaths = {
+                  "vendor/", "app/", "bootstrap/", "config/", "database/",
+                  "resources/", "routes/", "storage/", "tests/",
+                },
+              },
+              completion = {
+                fullyQualifyGlobalFunctionsAndConstants = false,
+                triggerParameterHints = true,
+                maxItems = 100,
+              },
+              diagnostics = {
+                enable = true,
+                exclude = {
+                  "**/vendor/**", "**/node_modules/**", "**/.git/**",
+                },
+              },
+              format = {
+                enable = true,
+              },
+              stubs = {
+                "apache", "bcmath", "bz2", "calendar", "com_dotnet", "Core",
+                "ctype", "curl", "date", "dba", "dom", "enchant", "exif", "FFI",
+                "fileinfo", "filter", "fpm", "ftp", "gd", "gettext", "gmp", "hash",
+                "iconv", "imap", "intl", "json", "ldap", "libxml", "mbstring",
+                "meta", "mysqli", "oci8", "odbc", "openssl", "pcntl", "pcre",
+                "PDO", "pdo_ibm", "pdo_mysql", "pdo_pgsql", "pdo_sqlite", "pgsql",
+                "Phar", "posix", "pspell", "readline", "Reflection", "session",
+                "shmop", "SimpleXML", "snmp", "soap", "sockets", "sodium", "SPL",
+                "sqlite3", "standard", "superglobals", "sysvmsg", "sysvsem",
+                "sysvshm", "tidy", "tokenizer", "xml", "xmlreader", "xmlrpc",
+                "xmlwriter", "xsl", "Zend OPcache", "zip", "zlib", "wordpress",
+                "drupal", "laravel",
+              },
+            },
+          },
+        },
       },
 
       -- LSP keymaps
@@ -119,6 +165,7 @@ return {
         "bash-language-server",
         "terraform-ls",
         "marksman",
+        "intelephense",
 
         -- Formatters
         "stylua",
@@ -264,6 +311,8 @@ return {
         "markdown_inline",
         "regex",
         "sql",
+        "php",
+        "php_only",
       },
       highlight = { enable = true },
       indent = { enable = true },

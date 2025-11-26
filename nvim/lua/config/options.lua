@@ -13,3 +13,4 @@ vim.o.autoread = true
 vim.o.textwidth = 100
 vim.o.colorcolumn = "100"
 vim.o.wrap = false
+vim.o.linespace = 6
