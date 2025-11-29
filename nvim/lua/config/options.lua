@@ -10,7 +10,7 @@ vim.g.maplocalleader = [[\]]
 vim.o.autoread = true
 
 -- Set line length to 100 characters
-vim.o.textwidth = 100
-vim.o.colorcolumn = "100"
-vim.o.wrap = false
+vim.o.textwidth = 80
+vim.o.colorcolumn = "80"
+vim.o.wrap = true
 vim.o.linespace = 6

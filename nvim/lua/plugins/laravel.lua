@@ -1,23 +1,11 @@
 -- Laravel-specific development tools
 return {
-  -- Laravel blade syntax support
-  {
-    "jwalton512/vim-blade",
-    ft = {"blade", "php"},
-    config = function()
-      -- Blade specific settings
-      vim.g.blade_custom_directives = {
-        -- Custom directives if needed
-      }
-    end,
-  },
-
   -- PHP and Laravel snippets
   {
     "molleweide/LuaSnip-snippets.nvim",
     dependencies = { "L3MON4D3/LuaSnip" },
     config = function()
-      require("luasnip.loaders.from_vscode").lazy_load({ paths = {"./snippets/php"} })
+      require("luasnip.loaders.from_vscode").lazy_load({ paths = { "./snippets/php" } })
     end,
   },
 
@@ -29,7 +17,7 @@ return {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
     },
-    cmd = {"Laravel"},
+    cmd = { "Laravel" },
     keys = {
       { "<leader>la", "<cmd>Laravel artisan<cr>", desc = "Laravel Artisan" },
       { "<leader>lr", "<cmd>Laravel routes<cr>", desc = "Laravel Routes" },
@@ -135,3 +123,4 @@ return {
     end,
   },
 }
+
