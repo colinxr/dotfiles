@@ -1,7 +1,7 @@
 # /Users/colin/.config/tmuxinator/evelyn.yml
 ---
 name: evelyn
-root: ~/Projects/evelyn/
+root: ~/Evelyn/evelynhq/
 
 # Optional tmux socket
 # socket_name: foo
@@ -56,3 +56,15 @@ windows:
       panes:
         - lazygit
   - docker: lazydocker
+  - api:
+      root: ~/Evelyn/evelynhq/apps/api
+      panes:
+        -
+  - web:
+      root: ~/Evelyn/evelynhq/apps/web
+      panes:
+        -
+  - logs:
+      root: ~/Evelyn/evelynhq/apps/api
+      panes:
+        - tail -f storage/logs/laravel.log
