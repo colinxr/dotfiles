@@ -52,27 +52,16 @@ return {
     end,
   },
 
-  -- PHP refactoring tools
+  -- PHP refactoring tools (phpactor for class operations only)
   {
     "phpactor/phpactor",
     ft = "php",
     build = "composer install --no-dev -o",
     keys = {
-      { "<leader>pm", "<cmd>PhpactorContextMenu<cr>", desc = "Phpactor Context Menu" },
       { "<leader>pn", "<cmd>PhpactorClassNew<cr>", desc = "New Class" },
       { "<leader>pi", "<cmd>PhpactorImportClass<cr>", desc = "Import Class" },
       { "<leader>pu", "<cmd>PhpactorImportMissingClasses<cr>", desc = "Import Missing Classes" },
     },
-    config = function()
-      vim.opt.updatetime = 300
-      vim.cmd([[autocmd CursorHold * call phpactor#AutoUpdate()]])
-    end,
-  },
-
-  -- Auto import for PHP
-  {
-    "phpactor/phpactor",
-    ft = "php",
     config = function()
       -- Auto import on completion
       vim.api.nvim_create_autocmd("CompleteDone", {
@@ -123,4 +112,3 @@ return {
     end,
   },
 }
-

@@ -198,6 +198,14 @@ return {
         follow_current_file = {
           enabled = true,
         },
+        -- Enable file system watching for real-time updates
+        use_libuv_file_watcher = true,
+        scan_mode = "deep",
+        bind_to_cwd = true,
+        cwd_target = {
+          sidebar = "tab",
+          current = "window",
+        },
       },
       window = {
         width = 35,
