@@ -206,7 +206,6 @@ fi
 # opencode
 export PATH=/Users/colin/.opencode/bin:$PATH
 export VOLTA_FEATURE_PNPM=1
-export NODE_EXTRA_CA_CERTS=/Users/colin/Projects/curology/local-development/packages/local-proxy/tls/combined.pem
 
 
 # Herd injected PHP 8.4 configuration.
