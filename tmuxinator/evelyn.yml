@@ -15,12 +15,12 @@ windows:
       panes:
         - lazygit
   - Lazydocker: lazydocker
-  - api:
-      root: ~/Evelyn/evelynhq/apps/api
-      panes:
-        -
   - web:
       root: ~/Evelyn/evelynhq/apps/web
+      panes:
+        -
+  - api:
+      root: ~/Evelyn/evelynhq/apps/api
       panes:
         -
   - shell:
