@@ -58,7 +58,7 @@ return {
           gs.blame_line({ full = true })
         end, "Blame Line")
         map("n", "<leader>hd", gs.diffthis, "Diff This")
-      end,
+      end
     },
   },
 
@@ -296,47 +296,37 @@ return {
   },
 
   {
-    "NickvanDyke/opencode.nvim",
+    "vim-test/vim-test",
     dependencies = {
-      -- Recommended for `ask()` and `select()`.
-      -- Required for `snacks` provider.
-      ---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
-      { "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
+      "preservim/vimux",  -- Optional: for running tests in tmux pane
     },
     config = function()
-      ---@type opencode.Opts
-      vim.g.opencode_opts = {
-        -- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition".
-      }
+      -- Configure vim-test to use Pest for PHP
+      vim.g['test#php#runner'] = 'pest'
+      vim.g['test#php#pest#executable'] = './vendor/bin/pest'
 
-      -- Required for `opts.auto_reload`.
-      vim.o.autoread = true
+      -- Optional: Configure test strategy (vimux is great for tmux users)
+      vim.g['test#strategy'] = 'vimux'
 
-      -- Recommended/example keymaps.
-      vim.keymap.set({ "n", "x" }, "<C-a>", function()
-        require("opencode").ask("@this: ", { submit = true })
-      end, { desc = "Ask opencode" })
-      vim.keymap.set({ "n", "x" }, "<C-x>", function()
-        require("opencode").select()
-      end, { desc = "Execute opencode action…" })
-      vim.keymap.set({ "n", "x" }, "ga", function()
-        require("opencode").prompt("@this")
-      end, { desc = "Add to opencode" })
-      vim.keymap.set({ "n", "t" }, "<C-.>", function()
-        require("opencode").toggle()
-      end, { desc = "Toggle opencode" })
-      vim.keymap.set("n", "<S-C-u>", function()
-        require("opencode").command("session.half.page.up")
-      end, { desc = "opencode half page up" })
-      vim.keymap.set("n", "<S-C-d>", function()
-        require("opencode").command("session.half.page.down")
-      end, { desc = "opencode half page down" })
-      -- You may want these if you stick with the opinionated "<C-a>" and "<C-x>" above — otherwise consider "<leader>o".
-      vim.keymap.set("n", "+", "<C-a>", { desc = "Increment", noremap = true })
-      vim.keymap.set("n", "-", "<C-x>", { desc = "Decrement", noremap = true })
+      -- Keymaps for running tests
+      local map = vim.keymap.set
+      
+      -- Test nearest to cursor
+      map('n', '<leader>tn', ':TestNearest<CR>', { desc = 'Run nearest test' })
+      
+      -- Test current file
+      map('n', '<leader>tf', ':TestFile<CR>', { desc = 'Run current test file' })
+      
+      -- Test entire test suite
+      map('n', '<leader>ta', ':TestSuite<CR>', { desc = 'Run all tests' })
+      
+      -- Last test run
+      map('n', '<leader>tl', ':TestLast<CR>', { desc = 'Run last test' })
+      
+      -- Visit the test file
+      map('n', '<leader>tv', ':TestVisit<CR>', { desc = 'Visit test file' })
     end,
   },
-
   {
     "ccaglak/phptools.nvim",
     keys = {
@@ -346,7 +336,6 @@ return {
       { "<leader>ln", "<cmd>PhpTools Namespace<cr>" },
       { "<leader>lg", "<cmd>PhpTools GetSet<cr>" },
       { "<leader>lf", "<cmd>PhpTools Create<cr>" },
-      { "<leader>ld", "<cmd>PhpTools DrupalAutoLoader<cr>" },
       { mode = "v", "<leader>lr", "<cmd>PhpTools Refactor<cr>" },
     },
     dependencies = {
@@ -356,6 +345,7 @@ return {
     },
     config = function()
       require("phptools").setup({
+        opt = "",
         ui = {
           enable = true, -- default:true; false only if you have a UI enhancement plugin
           fzf = false, -- default:false; tests requires fzf used only in tests module otherwise there might long list  of tests
@@ -381,15 +371,6 @@ return {
       map("n", "<leader>lhf", ide_helper.generate_facades, { desc = "Generate facade helpers" })
       map("n", "<leader>lht", ide_helper.generate_meta, { desc = "Generate meta helper" })
       map("n", "<leader>lhi", ide_helper.install, { desc = "Install IDE Helper package" })
-
-      local tests = require("phptools.tests") -- delete if you have a test plugin
-      map("n", "<Leader>ta", tests.test.all, { desc = "Run all tests" })
-      map("n", "<Leader>tf", tests.test.file, { desc = "Run current file tests" })
-      map("n", "<Leader>tl", tests.test.line, { desc = "Run test at cursor" })
-      map("n", "<Leader>ts", tests.test.filter, { desc = "Search and run test" })
-      map("n", "<Leader>tp", tests.test.parallel, { desc = "Run tests in parallel" })
-      map("n", "<Leader>tr", tests.test.rerun, { desc = "Rerun last test" })
-      map("n", "<Leader>ti", tests.test.selected, { desc = "Run selected test file" })
     end,
   },
 }

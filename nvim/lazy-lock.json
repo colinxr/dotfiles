@@ -70,5 +70,7 @@
   "venv-selector.nvim": { "branch": "main", "commit": "58bae72c84b9f7f864c879ec1896e384296f9ffb" },
   "vim-docker-tools": { "branch": "master", "commit": "248ae912c51f5bc581c6e436a46d33826ea54c65" },
   "vim-php-cs-fixer": { "branch": "master", "commit": "d6dec5d058a1509e5a15c796016adfa39df34646" },
+  "vim-test": { "branch": "master", "commit": "1eeb12774a0f251571700ccf68da27789b2f0852" },
+  "vimux": { "branch": "master", "commit": "614f0bb1fb598f97accdcea71d5f7b18d7d62436" },
   "which-key.nvim": { "branch": "main", "commit": "3aab2147e74890957785941f0c1ad87d0a44c15a" }
 }
