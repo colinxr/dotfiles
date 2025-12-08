@@ -25,3 +25,5 @@ containers/
 
 # Python uv package manager data
 uv/
+
+tmux/plugins/tpm
