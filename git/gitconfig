@@ -56,3 +56,5 @@
 	required = true
 [credential "https://github.com"]
 	username = colinxr
+[url "git@github.com:"]
+	insteadOf = https://github.com/
