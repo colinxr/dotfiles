@@ -3,6 +3,17 @@
 # To profile startup time: zmodload zsh/zprof at top, zprof at bottom
 # Or use: time zsh -i -c exit
 # ============================================================================
+# VI Mode
+bindkey -v
+
+function zle-line-init zle-keymap-select {
+    VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
+    RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $EPS1"
+    zle -R
+}
+
+zle -N zle-line-init
+zle -N zle-keymap-select
 
 # History Configuration
 HISTFILE=~/.zsh_history
@@ -74,7 +85,7 @@ alias ohmyzsh="nvim ~/.oh-my-zsh"
 
 alias ghosttyconf="nvim ~/.config/ghostty/config"
 
-alias tmuxconf="nvim ~/.config/tmux.tmux.conf"
+alias tmuxconf="nvim ~/.config/tmux/.tmux.conf"
 alias src-tmux="tmux source ~/.config/tmux/.tmux.conf"
 
 alias sshKey="pbcopy < ~/.ssh/id_ed25519.pub"
