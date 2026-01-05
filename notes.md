@@ -10,3 +10,5 @@ pane.
 
 when I pull down changes in this repo, i'd like to run the core install script
 again.
+
+how do i close all open buffers?
