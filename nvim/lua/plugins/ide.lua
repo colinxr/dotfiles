@@ -58,7 +58,7 @@ return {
           gs.blame_line({ full = true })
         end, "Blame Line")
         map("n", "<leader>hd", gs.diffthis, "Diff This")
-      end
+      end,
     },
   },
 
@@ -123,18 +123,13 @@ return {
       require("lsp_lines").setup()
       -- Disable by default, toggle with keybind
       vim.diagnostic.config({ virtual_lines = false })
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "markdown",
+        callback = function()
+          vim.diagnostic.enable(false)
+        end,
+      })
     end,
-  },
-
-  -- Docker integration
-  {
-    "kkvh/vim-docker-tools",
-    ft = { "dockerfile", "yaml" },
-    keys = {
-      { "<leader>db", "<cmd>DockerBuild<cr>", desc = "Docker Build" },
-      { "<leader>dr", "<cmd>DockerRun<cr>", desc = "Docker Run" },
-      { "<leader>dc", "<cmd>DockerCompose<cr>", desc = "Docker Compose" },
-    },
   },
 
   -- Treesitter context - keep function signature visible
@@ -294,39 +289,6 @@ return {
       end, { desc = "Messages half page down" })
     end,
   },
-
-  {
-    "vim-test/vim-test",
-    dependencies = {
-      "preservim/vimux",  -- Optional: for running tests in tmux pane
-    },
-    config = function()
-      -- Configure vim-test to use Pest for PHP
-      vim.g['test#php#runner'] = 'pest'
-      vim.g['test#php#pest#executable'] = './vendor/bin/pest'
-
-      -- Optional: Configure test strategy (vimux is great for tmux users)
-      vim.g['test#strategy'] = 'vimux'
-
-      -- Keymaps for running tests
-      local map = vim.keymap.set
-      
-      -- Test nearest to cursor
-      map('n', '<leader>tn', ':TestNearest<CR>', { desc = 'Run nearest test' })
-      
-      -- Test current file
-      map('n', '<leader>tf', ':TestFile<CR>', { desc = 'Run current test file' })
-      
-      -- Test entire test suite
-      map('n', '<leader>ta', ':TestSuite<CR>', { desc = 'Run all tests' })
-      
-      -- Last test run
-      map('n', '<leader>tl', ':TestLast<CR>', { desc = 'Run last test' })
-      
-      -- Visit the test file
-      map('n', '<leader>tv', ':TestVisit<CR>', { desc = 'Visit test file' })
-    end,
-  },
   {
     "ccaglak/phptools.nvim",
     keys = {
@@ -349,16 +311,6 @@ return {
         ui = {
           enable = true, -- default:true; false only if you have a UI enhancement plugin
           fzf = false, -- default:false; tests requires fzf used only in tests module otherwise there might long list  of tests
-        },
-        drupal_autoloader = { -- delete if you dont use it
-          enable = false, -- default:false
-          scan_paths = { "/web/modules/contrib/" }, -- Paths to scan for modules
-          root_markers = { ".git" }, -- Project root markers
-          autoload_file = "/vendor/composer/autoload_psr4.php", -- Autoload file path
-        },
-        custom_toggles = { -- delete if you dont use it
-          enable = false, -- default:false
-          -- { "foo", "bar", "baz" }, -- Add more custom toggle groups here
         },
       })
 
