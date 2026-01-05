@@ -18,6 +18,8 @@ require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    -- Disable LazyVim's neotest extras (we configure our own in plugins/testing.lua)
+    { "olimorris/neotest-phpunit", enabled = false },
     -- import/override with your plugins
     { import = "plugins" },
   },
