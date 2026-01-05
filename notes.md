@@ -1,6 +1,6 @@
-i need to be able to run php pest tests from neovim.
+X i need to be able to run php pest tests from neovim.
 
-i need to abe able to access .env files when finding files
+X i need to abe able to access .env files when finding files
 
 the markdown writing experience is kind of lame in NEOVIM. the colours on
 highlights and the autocomplete feature is kind of bogus
