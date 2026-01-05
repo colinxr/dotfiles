@@ -43,7 +43,8 @@ map("n", "N", "Nzzzv", { desc = "Prev search result (centered)" })
 map("x", "<leader>p", '"_dP', { desc = "Paste without yanking" })
 
 -- Quick save
-map("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file" })
+map("n", "<leader>W", "<cmd>w<cr>", { desc = "Save file" })
+
 map("i", "<leader>w", "<Esc><cmd>w<cr>a", { desc = "Save file" })
 
 -- Quick quit
@@ -80,7 +81,7 @@ map("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic quick
 
 -- File explorer
 map("n", "<leader>e", "<cmd>Neotree toggle<cr>", { desc = "Toggle file explorer" })
-map("n", "<leader>o", "<cmd>Neotree focus<cr>", { desc = "Focus file explorer" })
+map("n", "<leader>E", "<cmd>Neotree focus<cr>", { desc = "Focus file explorer" })
 
 -- Telescope
 map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
