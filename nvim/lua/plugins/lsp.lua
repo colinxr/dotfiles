@@ -91,24 +91,22 @@ return {
 
         -- PHP
         intelephense = {
+          root_dir = function(fname)
+            local util = require("lspconfig.util")
+            -- Prioritize composer.json in nested apps, then fall back to .git root
+            return util.root_pattern("composer.json")(fname)
+              or util.root_pattern(".git")(fname)
+          end,
           settings = {
             intelephense = {
               files = {
                 maxSize = 5000000,
-                exclude = { "**/vendor/**", "**/node_modules/**", "**/.git/**" },
+                associations = { "*.php", "*.phtml" },
               },
               environment = {
                 phpVersion = "8.4.0",
-                includePaths = {
-                  "vendor/",
-                  "app/",
-                  "bootstrap/",
-                  "config/",
-                  "database/",
-                  "resources/",
-                  "routes/",
-                  "storage/",
-                  "tests/",
+                include = {
+                  "apps/api/", -- Ensure nested helper files are indexed
                 },
               },
               completion = {
@@ -118,19 +116,6 @@ return {
               },
               diagnostics = {
                 enable = true,
-                undefinedTypes = false,
-                undefinedFunctions = false,
-                undefinedConstants = false,
-                undefinedClassConstants = false,
-                undefinedMethods = false,
-                undefinedProperties = false,
-                undefinedVariables = false,
-                unusedUse = false,
-                exclude = {
-                  "**/vendor/**",
-                  "**/node_modules/**",
-                  "**/.git/**",
-                },
               },
               format = {
                 enable = true,
@@ -215,6 +200,7 @@ return {
             },
           },
         },
+        phpactor = { enabled = false },
       },
 
       -- LSP keymaps
