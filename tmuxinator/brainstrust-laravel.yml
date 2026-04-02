@@ -2,8 +2,8 @@
 # Copy this file and replace PROJECT_NAME with your project name
 # Replace PROJECT_PATH with your project path under ~/Projects/
 ---
-name: PROJECT_NAME
-root: ~/Projects/PROJECT_PATH/
+name: brainstrust-laravel
+root: ~/Projects/brainstrust-laravel/
 
 windows:
   - Dev:
