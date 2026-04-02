@@ -107,6 +107,13 @@ map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
 -- Mason
 map("n", "<leader>cm", "<cmd>Mason<cr>", { desc = "Mason" })
 
+-- Pest test runner (monorepo-friendly)
+local pest = require("config.pest-runner")
+map("n", "<leader>tr", pest.run_nearest, { desc = "Run Nearest Test" })
+map("n", "<leader>tt", pest.run_file, { desc = "Run Test File" })
+map("n", "<leader>tl", pest.run_last, { desc = "Run Last Test" })
+map("n", "<leader>to", pest.toggle_output, { desc = "Toggle Test Output" })
+
 -- Toggle options
 map("n", "<leader>uw", "<cmd>set wrap!<cr>", { desc = "Toggle word wrap" })
 map("n", "<leader>us", "<cmd>set spell!<cr>", { desc = "Toggle spell check" })

@@ -100,15 +100,15 @@ alias art="php artisan"
 alias vapor="php vendor/bin/vapor"
 alias cur="proj; curology"
 alias pok="proj; cd PocketDerm"
-alias con="proj; conductor"
 alias tms="tmuxinator start"
 
 # Tmuxinator aliases
 alias tms-dot="tmuxinator start dotfiles"
 alias tms-eve="tmuxinator start evelyn" 
-alias tms-fol="tmuxinator start follett"
 alias tms-con="tmuxinator start config"
-alias tms-dd="tmuxinator start daily-dose"
+alias tms-sam="tmuxinator start shopify-app-manager"
+alias tme-sam="tmuxinator edit shopify-app-manager"
+alias tms-bl="tmuxinator start brainstrust-laravel"
 alias tml="tmuxinator list"
 alias tmk="tmux kill-session -t"
 alias tmks="tmux kill-server"
@@ -129,14 +129,15 @@ PATH=$PATH:~/usr/local/bin/composer
 PATH=$PATH:~/.composer/vendor/bin
 PATH=$PATH:/usr/local/mysql/bin
 
+# Clean up stale Herd environment variables
+unset PHP_INI_SCAN_DIR
+
 # macOS-specific paths
 if [[ "$OSTYPE" == "darwin"* ]]; then
     export JUPYTER_PATH=/opt/homebrew/share/jupyter 
     export JUPYTER_CONFIG_PATH=/opt/homebrew/etc/jupyter
-    export PHP_INI_SCAN_DIR="$HOME/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
-    export PATH="/opt/homebrew/opt/php@8.2/bin:$PATH"
-    export PATH="/opt/homebrew/opt/php@8.2/sbin:$PATH"
-    export PATH="/opt/herd/php/current/bin:$PATH"
+    export PATH="/opt/homebrew/opt/php@8.4/bin:$PATH"
+    export PATH="/opt/homebrew/opt/php@8.4/sbin:$PATH"
     export LDFLAGS="-L/opt/homebrew/opt/openblas/lib"
     export CPPFLAGS="-I/opt/homebrew/opt/openblas/include"
     export PKG_CONFIG_PATH="/opt/homebrew/opt/openblas/lib/pkgconfig"
@@ -223,9 +224,8 @@ export PATH=/Users/colin/.opencode/bin:$PATH
 export VOLTA_FEATURE_PNPM=1
 
 
-# Herd injected PHP 8.4 configuration.
-export HERD_PHP_84_INI_SCAN_DIR="/Users/colin/Library/Application Support/Herd/config/php/84/"
 
+. "$HOME/.local/bin/env"
 
-# Herd injected PHP 8.3 configuration.
-export HERD_PHP_83_INI_SCAN_DIR="/Users/colin/Library/Application Support/Herd/config/php/83/"
+# OpenClaw Completion
+source "/Users/colin/.openclaw/completions/openclaw.zsh"
