@@ -3,8 +3,7 @@ name: ship
 description:
   Use when the user wants to commit, push, and open a pull request for the
   current changes. Stages relevant files, writes a descriptive commit message,
-  pushes the branch, opens a PR against main, and posts an /oc review comment so
-  opencode automatically reviews and approves if ready.
+  pushes the branch, opens a PR against main,
 ---
 
 # Ship
@@ -41,17 +40,7 @@ git remote -v
 Use the output to understand: what branch we're on, what's changed, what the
 recent commit style looks like, and what the remote is.
 
-### Step 2 — Fetch and rebase
-
-```bash
-git fetch origin
-git rebase origin/main
-```
-
-If there are conflicts, resolve them (keeping both sides where appropriate),
-then continue the rebase. Do NOT skip this step.
-
-### Step 3 — Stage files
+### Step 2 — Stage files
 
 Stage all changed/new files that are relevant to the work. Explicitly exclude:
 
@@ -65,9 +54,10 @@ git add <relevant files>
 git status   # verify staging looks right
 ```
 
-### Step 4 — Commit
+### Step 3 — Commit
 
-Write a commit message that:
+commit the changes in small and logical manner. commits should be atomic and
+each buildable.
 
 - Uses the imperative mood (`feat:`, `fix:`, `ci:`, `docs:`, `refactor:`)
 - First line ≤ 72 characters summarising the **why**, not the what
@@ -77,7 +67,18 @@ Write a commit message that:
 
 ```bash
 git commit -m "<message>"
+
 ```
+
+### Step 4 — Fetch and rebase
+
+```bash
+git fetch origin
+git rebase origin/main
+```
+
+If there are conflicts, resolve them (keeping both sides where appropriate),
+then continue the rebase. Do NOT skip this step.
 
 ### Step 5 — Push
 
@@ -115,15 +116,7 @@ EOF
 
 Capture the PR URL from the output.
 
-### Step 7 — Trigger opencode review
-
-Post the review comment on the PR so the opencode GitHub Action picks it up:
-
-```bash
-gh pr comment <PR number> --body "/oc please review this PR and approve if you find it ready to merge"
-```
-
-### Step 8 — Report back
+### Step 7 — Report back
 
 Tell the user:
 
