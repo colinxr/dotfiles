@@ -30,6 +30,15 @@ detect_package_manager() {
   fi
 }
 
+# Run apt-get update only once per invocation (not before every package)
+APT_UPDATED=false
+apt_update_once() {
+  if [ "$APT_UPDATED" = false ]; then
+    sudo apt-get update -qq
+    APT_UPDATED=true
+  fi
+}
+
 # Tool installation functions
 install_tool() {
   local tool=$1
@@ -44,10 +53,11 @@ install_tool() {
     fi
     ;;
   linux)
-    local pkg_manager=$(detect_package_manager)
+    local pkg_manager
+    pkg_manager=$(detect_package_manager)
     case $pkg_manager in
     apt)
-      sudo apt-get update -qq
+      apt_update_once
       sudo apt-get install -y "$tool"
       ;;
     dnf)
@@ -72,16 +82,51 @@ install_tool() {
   esac
 }
 
-# Core tools list: zsh git docker fzf zoxide bat gh nvim tmux
-CORE_TOOLS="zsh git fzf zoxide bat gh nvim tmux"
+# GitHub CLI — NOT in Ubuntu's apt archive; needs GitHub's official repo
+install_gh() {
+  if command -v gh >/dev/null 2>&1; then
+    echo "gh is already installed"
+    return
+  fi
 
-# Install Homebrew on macOS if not present
-if [[ "$(detect_platform)" == "macos" ]] && ! command -v brew >/dev/null 2>&1; then
-  echo "Installing Homebrew..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
+  echo "Installing gh (GitHub CLI)..."
 
-# Install Docker separately (special handling)
+  case $(detect_platform) in
+  macos)
+    brew install gh
+    ;;
+  linux)
+    local pkg_manager
+    pkg_manager=$(detect_package_manager)
+    case $pkg_manager in
+    apt)
+      if [ ! -f /etc/apt/sources.list.d/github-cli.list ]; then
+        echo "Adding GitHub CLI apt repository..."
+        curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+        sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
+        APT_UPDATED=false # force re-update so apt sees the new repo
+      fi
+      apt_update_once
+      sudo apt-get install -y gh
+      ;;
+    dnf | yum)
+      sudo $pkg_manager install -y gh
+      ;;
+    pacman)
+      sudo pacman -S --noconfirm github-cli
+      ;;
+    *)
+      echo "Please install gh manually: https://github.com/cli/cli/releases"
+      ;;
+    esac
+    ;;
+  esac
+}
+
+# Docker — on Linux use get.docker.com (docker-ce + compose v2 plugin).
+# Ubuntu's own `docker.io` + `docker-compose` packages give you the legacy
+# v1 compose binary (no `docker compose` subcommand) — avoid them.
 install_docker() {
   if command -v docker >/dev/null 2>&1; then
     echo "Docker is already installed"
@@ -93,17 +138,25 @@ install_docker() {
     install_tool "docker"
     ;;
   linux)
-    local pkg_manager=$(detect_package_manager)
+    local pkg_manager
+    pkg_manager=$(detect_package_manager)
     case $pkg_manager in
-    apt)
-      sudo apt-get update -qq
-      sudo apt-get install -y docker.io docker-compose
-      sudo usermod -aG docker "$USER"
+    pacman)
+      # Arch packages compose v2 correctly
+      sudo pacman -S --noconfirm docker docker-compose
+      sudo systemctl enable --now docker
       ;;
     *)
-      echo "Please install Docker manually for your distribution"
+      echo "Installing Docker Engine via get.docker.com..."
+      curl -fsSL https://get.docker.com | sudo sh
       ;;
     esac
+
+    # Non-root users need the docker group (applies on next login)
+    if [ "$(id -u)" -ne 0 ]; then
+      sudo usermod -aG docker "$USER"
+      echo "⚠️  Added $USER to the docker group — log out and back in for it to take effect"
+    fi
     ;;
   esac
 }
@@ -129,7 +182,7 @@ install_starship() {
     echo "Starship is already installed"
     return
   fi
-  
+
   echo "Installing Starship..."
   curl -sS https://starship.rs/install.sh | sh
 }
@@ -142,28 +195,35 @@ main() {
     echo "Package manager: $(detect_package_manager)"
   fi
 
-  # Install core tools
+  # Install Homebrew on macOS if not present
+  if [[ "$(detect_platform)" == "macos" ]] && ! command -v brew >/dev/null 2>&1; then
+    echo "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
+
+  # Core tools: zsh git curl fzf zoxide bat nvim tmux
+  # (gh and docker have dedicated installers below)
+  CORE_TOOLS="zsh git curl fzf zoxide bat nvim tmux"
+
   for tool in $CORE_TOOLS; do
     install_tool "$tool"
   done
 
-  # Install Docker
+  install_gh
   install_docker
-
-  #Tnstall Tmux Plugin Manager
   install_tpm
-
-  # Install Starship Prompt
   install_starship
 
-  chsh -s $(which zsh)
-  source ~/.config/zsh/.zshrc
+  # Default shell -> zsh (takes effect next login). Don't fail the whole
+  # run if chsh isn't permitted here.
+  if [ "$(basename "${SHELL:-}")" != "zsh" ]; then
+    chsh -s "$(command -v zsh)" || echo "⚠️  chsh failed — run manually: chsh -s $(command -v zsh)"
+  fi
 
   echo "✅ Core tools installation complete!"
   echo "📝 Note: Configuration files are NOT modified by this script"
   echo "🔧 Your existing configs in ~/.config/ remain the source of truth"
-  echo "🔧 You may need to log out and back in for the changes to take effect"
+  echo "🔧 Log out and back in (or run 'exec zsh') to start using zsh"
 }
 
 main "$@"
-
