@@ -202,7 +202,13 @@ install_starship() {
   fi
 
   echo "Installing Starship..."
-  curl -sS https://starship.rs/install.sh | sh -s -- -y
+  if [[ "$(detect_platform)" == "linux" ]]; then
+    # The installer's own escalation prompts on a TTY and fails under
+    # non-interactive shells — run the whole installer with sudo instead.
+    curl -sS https://starship.rs/install.sh | sudo sh -s -- -y
+  else
+    curl -sS https://starship.rs/install.sh | sh -s -- -y
+  fi
 }
 
 # Main installation
