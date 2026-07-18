@@ -39,6 +39,22 @@ apt_update_once() {
   fi
 }
 
+# Some tools ship under a different package name on Linux distros
+# (e.g. brew's "nvim" is "neovim" in apt/dnf/pacman)
+pkg_name_for() {
+  local tool=$1
+  local manager=$2
+  case "$manager" in
+  apt | dnf | yum | pacman)
+    case "$tool" in
+    nvim) echo "neovim" ;;
+    *) echo "$tool" ;;
+    esac
+    ;;
+  *) echo "$tool" ;;
+  esac
+}
+
 # Tool installation functions
 install_tool() {
   local tool=$1
@@ -55,19 +71,21 @@ install_tool() {
   linux)
     local pkg_manager
     pkg_manager=$(detect_package_manager)
+    local pkg
+    pkg=$(pkg_name_for "$tool" "$pkg_manager")
     case $pkg_manager in
     apt)
       apt_update_once
-      sudo apt-get install -y "$tool"
+      sudo apt-get install -y "$pkg"
       ;;
     dnf)
-      sudo dnf install -y "$tool"
+      sudo dnf install -y "$pkg"
       ;;
     yum)
-      sudo yum install -y "$tool"
+      sudo yum install -y "$pkg"
       ;;
     pacman)
-      sudo pacman -S --noconfirm "$tool"
+      sudo pacman -S --noconfirm "$pkg"
       ;;
     *)
       echo "Unsupported package manager: $pkg_manager"
