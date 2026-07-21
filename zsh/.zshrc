@@ -222,10 +222,3 @@ fi
 # opencode
 export PATH=/Users/colin/.opencode/bin:$PATH
 export VOLTA_FEATURE_PNPM=1
-
-
-
-. "$HOME/.local/bin/env"
-
-# OpenClaw Completion
-source "/Users/colin/.openclaw/completions/openclaw.zsh"

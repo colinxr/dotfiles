@@ -17,6 +17,10 @@ _raycast
 # Local machine-specific configs
 zsh/.zshrc.local
 
+# opencode npm lockfile (MCP deps, machine-local)
+opencode/package-lock.json
+opencode/node_modules
+
 # PHP Composer dependencies
 composer/
 
