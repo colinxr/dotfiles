@@ -193,6 +193,64 @@ install_tpm() {
     rm -rf "$DIR"
     git clone https://github.com/tmux-plugins/tpm "$DIR"
   fi
+
+  # Auto-install every plugin listed via @plugin in .tmux.conf so a fresh
+  # machine works without a manual `prefix + I` press.
+  if [ -x "$DIR/bin/install_plugins" ]; then
+    echo "Installing tmux plugins…"
+    "$DIR/bin/install_plugins" >/dev/null 2>&1 || echo "⚠️  some plugins failed to install (run prefix + I inside tmux)"
+  fi
+}
+
+# Ensure tmux finds the config without relying on tmux >= 3.3 XDG support.
+# We point ~/.tmux.conf at ~/.config/tmux/.tmux.conf via a symlink.
+link_tmux_conf() {
+  local target="$HOME/.config/tmux/.tmux.conf"
+  local link="$HOME/.tmux.conf"
+
+  if [ -L "$link" ]; then
+    echo "tmux.conf symlink already in place"
+    return
+  fi
+
+  if [ -e "$link" ] && [ ! -L "$link" ]; then
+    echo "⚠️  $link exists and is not a symlink — backing up to $link.bak"
+    mv "$link" "$link.bak"
+  fi
+
+  ln -s "$target" "$link"
+  echo "Linked $link -> $target"
+}
+
+# sesh (smart tmux session manager) ships as a Go binary.
+# Requires Go — install it first if it's missing.
+install_sesh() {
+  if command -v sesh >/dev/null 2>&1; then
+    echo "sesh is already installed"
+    return
+  fi
+
+  if ! command -v go >/dev/null 2>&1; then
+    echo "Installing Go toolchain (required for sesh)…"
+    case $(detect_platform) in
+    macos)
+      brew install go
+      ;;
+    linux)
+      local pkg_manager
+      pkg_manager=$(detect_package_manager)
+      case $pkg_manager in
+      apt)   sudo apt-get install -y golang-go ;;
+      dnf|yum) sudo $pkg_manager install -y go ;;
+      pacman) sudo pacman -S --noconfirm go ;;
+      *) echo "⚠️  please install Go manually, then re-run"; return 1 ;;
+      esac
+      ;;
+    esac
+  fi
+
+  echo "Installing sesh via go install…"
+  go install github.com/joshmedeski/sesh@latest
 }
 
 install_starship() {
@@ -237,6 +295,8 @@ main() {
   install_docker
   install_tpm
   install_starship
+  install_sesh
+  link_tmux_conf
 
   # Default shell -> zsh (takes effect next login). Don't fail the whole
   # run if chsh isn't permitted here.

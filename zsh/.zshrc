@@ -220,5 +220,8 @@ if [[ -f ~/.zshrc.local ]]; then
 fi
 
 # opencode
-export PATH=/Users/colin/.opencode/bin:$PATH
+export PATH="$HOME/.opencode/bin:$PATH"
 export VOLTA_FEATURE_PNPM=1
+export PATH="$HOME/go/bin:$PATH"
+fpath=(~/.zsh/completions $fpath)
+autoload -U compinit && compinit
