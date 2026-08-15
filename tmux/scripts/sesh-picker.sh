@@ -23,14 +23,17 @@ fi
 
 preview="$HOME/.config/tmux/scripts/sesh-preview.sh"
 
-# Dracula palette matching the status line:
-#   purple #bd93f9 borders/info, cyan #8be9fd cursor, orange #ffb86c prompt+matches,
-#   comment #6272a4 hints, bg #282a36 / selection #44475a (current line).
+# Status-line palette (triadic muted) — same roles as the bar:
+#   purple #bd93f9  workspace → border, matched text   (cwd/git segments)
+#   orange #ffb86c  anchor    → prompt ❯               (session block, time, weather)
+#   cyan   #8be9fd  system    → cursor, info            (network/battery/sys-temp, prefix flag)
+#   comment #6272a4 hints     → header
+#   dark_gray #21222c         → bg (same as segment bg), #44475a = selection
 selection=$(sesh list | fzf-tmux -p 90%,70% \
   --reverse \
   --prompt '❯ ' \
   --header 'enter: connect · ctrl-x: kill session · tab/btab: move' \
-  --color 'bg:#282a36,bg+:#44475a,fg:#f8f8f2,fg+:#f8f8f2,gutter:#282a36,preview-bg:#21222c,preview-fg:#f8f8f2,border:#bd93f9,header:#6272a4,info:#bd93f9,pointer:#8be9fd,marker:#8be9fd,prompt:#ffb86c,hl:#ffb86c,hl+:#ffb86c,spinner:#ff79c6' \
+  --color 'bg:#21222c,bg+:#44475a,fg:#f8f8f2,fg+:#f8f8f2,gutter:#21222c,preview-bg:#21222c,preview-fg:#f8f8f2,border:#bd93f9,header:#6272a4,info:#8be9fd,pointer:#8be9fd,marker:#8be9fd,prompt:#ffb86c,hl:#bd93f9,hl+:#bd93f9,spinner:#ffb86c' \
   --bind 'tab:down,btab:up' \
   --bind 'ctrl-x:execute-silent(tmux kill-session -t {} 2>/dev/null || true)+reload(sesh list)' \
   --preview "$preview {}" \
