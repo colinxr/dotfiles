@@ -1,0 +1,109 @@
+#:schema https://github.com/joshmedeski/sesh/raw/main/sesh.schema.json
+# Sesh configuration - migrated from tmuxinator
+
+# ============================================================================
+# Default Session Settings
+# ============================================================================
+[default_session]
+startup_command = "nvim"
+preview_command = "eza --all --git --icons --color=always {}"
+
+# ============================================================================
+# Reusable Window Definitions
+# ============================================================================
+[[window]]
+name = "dev"
+startup_script = "~/.config/sesh/setup-dev.sh"
+
+[[window]]
+name = "dev-follett"
+startup_script = "~/.config/sesh/setup-follett.sh"
+
+[[window]]
+name = "lazygit"
+startup_script = "lazygit"
+
+[[window]]
+name = "lazydocker"
+startup_script = "lazydocker"
+
+[[window]]
+name = "opencode"
+startup_script = "opencode"
+
+[[window]]
+name = "evelyn-shell"
+startup_script = "make shell"
+
+[[window]]
+name = "evelyn-logs"
+startup_script = "~/.config/sesh/setup-evelyn-logs.sh"
+
+# ============================================================================
+# Project Sessions
+# ============================================================================
+
+# dotfiles - ~/.config
+[[session]]
+name = "dotfiles"
+path = "~/.config"
+preview_command = "eza --tree --level 2 ~/.config"
+windows = ["dev", "lazygit"]
+
+# evelyn - ~/Evelyn/evelynhq/
+# Original had: Dev (nvim|opencode), Lazygit, Lazydocker, web, api, shell, logs
+[[session]]
+name = "evelyn"
+path = "~/Evelyn/evelynhq"
+preview_command = "eza --tree --level 2 ~/Evelyn/evelynhq"
+windows = ["dev", "lazygit", "lazydocker", "evelyn-shell", "evelyn-logs"]
+
+# shopify-app-manager - ~/Projects/shopify-app-manager/
+[[session]]
+name = "shopify-app-manager"
+path = "~/Projects/shopify-app-manager"
+preview_command = "eza --tree --level 2 ~/Projects/shopify-app-manager"
+windows = ["dev", "lazygit", "lazydocker"]
+
+# brainstrust-laravel - ~/Projects/brainstrust-laravel/
+[[session]]
+name = "brainstrust-laravel"
+path = "~/Projects/brainstrust-laravel"
+preview_command = "eza --tree --level 2 ~/Projects/brainstrust-laravel"
+windows = ["dev", "lazygit", "lazydocker"]
+
+# follett - ~/Projects/follett/follett-gateway-ecom/
+[[session]]
+name = "follett"
+path = "~/Projects/follett/follett-gateway-ecom"
+preview_command = "eza --tree --level 2 ~/Projects/follett/follett-gateway-ecom"
+windows = ["dev-follett", "lazygit", "lazydocker"]
+
+# daily-dose - ~/Projects/daily-dose
+[[session]]
+name = "daily-dose"
+path = "~/Projects/daily-dose"
+preview_command = "eza --tree --level 2 ~/Projects/daily-dose"
+windows = ["dev", "lazygit"]
+
+# config - ~/.config (general purpose)
+[[session]]
+name = "config"
+path = "~/.config"
+preview_command = "eza --tree --level 2 ~/.config"
+windows = ["dev", "lazygit", "lazydocker"]
+
+# ============================================================================
+# Wildcard Configurations
+# ============================================================================
+# Auto-apply settings to all projects in ~/Projects
+[[wildcard]]
+pattern = "~/Projects/*"
+startup_command = "nvim"
+preview_command = "eza --all --git --icons --color=always {}"
+
+# Auto-apply settings to all projects in ~/Evelyn
+[[wildcard]]
+pattern = "~/Evelyn/*"
+startup_command = "nvim"
+preview_command = "eza --all --git --icons --color=always {}"
