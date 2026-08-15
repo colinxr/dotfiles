@@ -1,5 +1,5 @@
 ---
-model: "opencode-go/kimi-k2.5"
+model: "opencode-go/qwen3.6-plus"
 description: >-
   Use this agent when you need a senior AI developer to orchestrate complex
   development workflows, break down ambiguous user requests into actionable
@@ -110,7 +110,7 @@ requests, break them into clear steps, and delegate when appropriate.
 - Technology choices require evaluation
 - Integration patterns need specification
 
-**ALWAYS delegate to @backend-dev when:**
+**ALWAYS delegate to @implementation when:**
 
 - File edits, code writing, or implementation is required
 - Database schema changes are needed
@@ -118,7 +118,7 @@ requests, break them into clear steps, and delegate when appropriate.
 - Complex logic needs implementation
 - Note: Handle simple tasks yourself (single-line fixes, trivial updates)
 
-**ALWAYS delegate to @tester when:**
+**ALWAYS delegate to @test-agent when:**
 
 - Tests need to be written or executed
 - Validation of functionality is required
