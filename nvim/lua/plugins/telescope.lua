@@ -77,44 +77,33 @@ return {
       },
       pickers = {
         find_files = {
-          find_command = {
-            "fd",
-            "--type",
-            "f",
-            "--no-ignore-vcs",
-            "--strip-cwd-prefix",
-            "--hidden",
-            "--exclude",
-            "vendor",
-            "--exclude",
-            "node_modules",
-            "--exclude",
-            ".git",
-            "--exclude",
-            "*.pyc",
-            "--exclude",
-            "__pycache__",
-            "--exclude",
-            ".pytest_cache",
-            "--exclude",
-            "dist",
-            "--exclude",
-            "build",
-            "--exclude",
-            ".next",
-            "--exclude",
-            ".nuxt",
-            "--exclude",
-            "coverage",
-            "--exclude",
-            ".nyc_output",
-            "--exclude",
-            "*.log",
-            "--exclude",
-            "*.tmp",
-            "--exclude",
-            "*.temp",
-          },
+          find_command = (function()
+            -- Use fd if available (fast, respects excludes). On Debian/Ubuntu
+            -- the binary is `fdfind`; on macOS/brew it's `fd`. If neither is
+            -- present, return nil so telescope falls back to `find`.
+            local fd = vim.fn.executable("fd") == 1 and "fd"
+              or vim.fn.executable("fdfind") == 1 and "fdfind"
+            if not fd then return nil end
+            return {
+              fd, "--type", "f", "--no-ignore-vcs", "--strip-cwd-prefix",
+              "--hidden",
+              "--exclude", "vendor",
+              "--exclude", "node_modules",
+              "--exclude", ".git",
+              "--exclude", "*.pyc",
+              "--exclude", "__pycache__",
+              "--exclude", ".pytest_cache",
+              "--exclude", "dist",
+              "--exclude", "build",
+              "--exclude", ".next",
+              "--exclude", ".nuxt",
+              "--exclude", "coverage",
+              "--exclude", ".nyc_output",
+              "--exclude", "*.log",
+              "--exclude", "*.tmp",
+              "--exclude", "*.temp",
+            }
+          end)(),
         },
         live_grep = {
           additional_args = function()

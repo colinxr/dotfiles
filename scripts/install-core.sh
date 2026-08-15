@@ -48,6 +48,7 @@ pkg_name_for() {
   apt | dnf | yum | pacman)
     case "$tool" in
     nvim) echo "neovim" ;;
+    fd)   echo "fd-find" ;;
     *) echo "$tool" ;;
     esac
     ;;
@@ -285,11 +286,17 @@ main() {
 
   # Core tools: zsh git curl fzf zoxide bat nvim tmux
   # (gh and docker have dedicated installers below)
-  CORE_TOOLS="zsh git curl fzf zoxide bat nvim tmux"
+  CORE_TOOLS="zsh git curl fzf zoxide bat nvim tmux fd"
 
   for tool in $CORE_TOOLS; do
     install_tool "$tool"
   done
+
+  # On Debian/Ubuntu, fd ships as `fd-find` with binary `fdfind`.
+  # Symlink to `fd` so telescope/other tools find it on PATH.
+  if ! command -v fd >/dev/null 2>&1 && command -v fdfind >/dev/null 2>&1; then
+    sudo ln -sf "$(command -v fdfind)" /usr/local/bin/fd
+  fi
 
   install_gh
   install_docker
