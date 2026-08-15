@@ -33,3 +33,7 @@ uv/
 
 tmux/plugins/
 qBittorrent/
+
+# Machine-local CLI configs (auth, profiles, first-run markers)
+/acli/
+/cagent/
