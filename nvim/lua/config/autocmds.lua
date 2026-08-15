@@ -6,6 +6,14 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Ensure .liquid files are detected as liquid filetype
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.liquid" },
+  callback = function()
+    vim.bo.filetype = "liquid"
+  end,
+})
+
 -- Auto-reload files when changed externally
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
   pattern = "*",

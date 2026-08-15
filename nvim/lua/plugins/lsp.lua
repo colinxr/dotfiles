@@ -89,6 +89,9 @@ return {
         -- Markdown
         marksman = {},
 
+        -- Shopify Liquid
+        theme_check = {},
+
         -- PHP
         intelephense = {
           root_dir = function(fname)
@@ -212,45 +215,21 @@ return {
     },
   },
 
-  -- Mason - LSP/DAP/linter installer
+  -- Extend LazyVim's Mason with extra packages
   {
     "mason-org/mason.nvim",
-    opts = {
-      ensure_installed = {
-        -- LSP
-        "lua-language-server",
-        "pyright",
-        "ruff-lsp",
-        "rust-analyzer",
-        "gopls",
-        "typescript-language-server",
-        "tailwindcss-language-server",
-        "yaml-language-server",
-        "json-lsp",
-        "dockerfile-language-server",
-        "docker-compose-language-service",
-        "bash-language-server",
-        "terraform-ls",
-        "marksman",
-        "intelephense",
-
-        -- Formatters
-        "stylua",
-        "black",
-        "isort",
-        "prettier",
-        "gofumpt",
-        "goimports",
-        "shfmt",
-
-        -- Linters
-        "shellcheck",
-        "eslint_d",
-        "hadolint", -- dockerfile linter
-        "yamllint",
-        "markdownlint-cli2",
-      },
-    },
+    opts = function(_, opts)
+      local extra = {
+        "theme-check", -- Shopify Liquid LSP + linter
+      }
+      opts.ensure_installed = opts.ensure_installed or {}
+      for _, pkg in ipairs(extra) do
+        if not vim.tbl_contains(opts.ensure_installed, pkg) then
+          table.insert(opts.ensure_installed, pkg)
+        end
+      end
+      return opts
+    end,
   },
 
   -- Formatting
@@ -271,6 +250,7 @@ return {
         markdown = { "prettier" },
         html = { "prettier" },
         css = { "prettier" },
+        liquid = { "prettier" },
         sh = { "shfmt" },
         bash = { "shfmt" },
         dockerfile = { "prettier" },
@@ -380,6 +360,7 @@ return {
         "sql",
         "php",
         "php_only",
+        "liquid", -- Shopify Liquid templates
       },
       highlight = { enable = true },
       indent = { enable = true },
