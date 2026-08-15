@@ -1,0 +1,90 @@
+╔════════════════════════════════════════════════════════════════╗
+║              CONFIG SYNC QUICK REFERENCE                        ║
+║         (tmux + ghostty + plugins across machines)              ║
+╚════════════════════════════════════════════════════════════════╝
+
+WHERE THINGS LIVE
+─────────────────────────────────────────────────────────────────
+  ~/.config/tmux/.tmux.conf       tmux config (tracked in git)
+  ~/.config/tmux/plugins/         TPM + plugin clones (NOT tracked,
+                                  gitignored — rebuilt on demand)
+  ~/.config/ghostty/config        ghostty config (tracked)
+  ~/.config/ghostty/themes/       ghostty custom themes (tracked)
+  ~/.config/.gitignore            repo-wide ignores
+  ~/.config/scripts/install-core.sh   fresh-machine bootstrap
+
+SOURCE OF TRUTH
+─────────────────────────────────────────────────────────────────
+  The @plugin lines in .tmux.conf define what should be installed.
+  The plugins/ dir is disposable — delete it and reinstall anytime.
+
+PULLING CHANGES ON A MACHINE
+─────────────────────────────────────────────────────────────────
+  git pull                        in ~/.config
+  Ctrl+s r                        reload tmux config (bind r)
+  ghostty: auto-reloads on save (Cmd+Shift+, forces reload)
+
+  If you changed/added a tmux plugin, ALSO install it (next section).
+  Ghostty needs nothing — it watches its config file.
+
+TPM PLUGIN LIFECYCLE (prefix = Ctrl+s)
+─────────────────────────────────────────────────────────────────
+  Ctrl+s I                       install new plugins from @plugin list
+  Ctrl+s U                       update plugins (prompts which)
+  Ctrl+s alt+u                   REMOVE plugins no longer in @plugin
+                                 list ← run this after swapping themes!
+
+  From the shell (no tmux needed):
+    ~/.config/tmux/plugins/tpm/bin/install_plugins
+    ~/.config/tmux/plugins/tpm/bin/update_plugins all
+    ~/.config/tmux/plugins/tpm/bin/clean_plugins
+
+SWAPPING A TMUX THEME/PLUGIN — CHECKLIST
+─────────────────────────────────────────────────────────────────
+  1. Edit @plugin lines in .tmux.conf (e.g. catppuccin/tmux →
+     dracula/tmux)
+  2. Commit + push, merge PR
+  3. On each machine: git pull
+  4. Ctrl+s alt+u   (clean the stale plugin — IMPORTANT)
+  5. Ctrl+s I       (install the new one)
+  6. Ctrl+s r       (reload)
+
+  GOTCHA: two plugins with the same repo name (e.g. catppuccin/tmux
+  and dracula/tmux) both clone to plugins/tmux/. TPM sees the old
+  clone and thinks the new one is already installed. If the status
+  bar still shows the old theme:
+    rm -rf ~/.config/tmux/plugins/tmux
+    ~/.config/tmux/plugins/tpm/bin/install_plugins
+    tmux source-file ~/.config/tmux/.tmux.conf
+
+FRESH MACHINE BOOTSTRAP
+─────────────────────────────────────────────────────────────────
+  ~/.config/scripts/install-core.sh
+    └─ install_tpm(): clones TPM, then auto-installs every @plugin
+
+VERIFYING WHAT'S RUNNING
+─────────────────────────────────────────────────────────────────
+  tmux show-options -gv status-left   see rendered status line
+  git -C ~/.config/tmux/plugins/tmux remote -v
+                                     confirm which plugin repo
+                                     is actually cloned
+  ps -o lstart= -p $(pgrep -x tmux | head -1)
+                                     when the server last started
+
+GHOSTTY vs TMUX THEMES
+─────────────────────────────────────────────────────────────────
+  They are independent:
+    tmux status bar   → .tmux.conf (@plugin + theme options)
+    terminal colors   → ~/.config/ghostty/config (theme = ...)
+  Changing one does NOT change the other. Ghostty ships themes
+  (ghostty +list-themes); custom ones go in ~/.config/ghostty/themes/.
+  Current ghostty theme: catppuccin-mocha (line 11 of config)
+
+FULL RESET (when in doubt)
+─────────────────────────────────────────────────────────────────
+  rm -rf ~/.config/tmux/plugins
+  ~/.config/scripts/install-core.sh   (or clone TPM manually)
+  tmux kill-server                    (fresh start, reloads everything)
+
+════════════════════════════════════════════════════════════════
+  See also: ~/.config/docs/tmux-quick-ref.txt (daily tmux keys)
