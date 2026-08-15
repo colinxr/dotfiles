@@ -36,8 +36,8 @@ zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search    # Up arrow
 bindkey "^[[B" down-line-or-beginning-search  # Down arrow
 
-# NVM - lazy loaded (see function at end of file)
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+# NVM - NVM_DIR is exported in ~/.zshenv (which also puts node on PATH).
+# The lazy `nvm` command is defined at the end of this file.
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -121,13 +121,17 @@ alias tma="tmux attach -t"
 alias tmls="tmux ls"
 alias tmns="tmux new-session -s"
 
-PATH=$PATH:~/bin
-PATH=$PATH:~/usr/bin
-PATH=$PATH:~/usr/local/bin
-PATH=$PATH:/usr/local/bin
-PATH=$PATH:~/usr/local/bin/composer
-PATH=$PATH:~/.composer/vendor/bin
-PATH=$PATH:/usr/local/mysql/bin
+# Dedupe PATH automatically (zsh keeps `path` and `PATH` in sync).
+# This prevents PATH bloat when .zshrc is re-sourced in nested shells.
+typeset -U path PATH
+
+# User PATH additions (only directories that exist).
+path=(
+    $path
+    /usr/local/bin
+    ~/.composer/vendor/bin
+    /usr/local/mysql/bin
+)
 
 # Clean up stale Herd environment variables
 unset PHP_INI_SCAN_DIR
@@ -168,39 +172,14 @@ fi
 # Deferred/Lazy Loading for Performance
 # ============================================================================
 
-# Lazy load NVM - only initialize when node/npm/nvm is called
+# Lazy load NVM - node is already on PATH via ~/.zshenv; here we only define
+# the lazy `nvm` command so startup stays fast (nvm.sh sourced on first use).
 if [[ -s "$NVM_DIR/nvm.sh" ]]; then
-    # Add NVM's default node to path without loading full nvm
-    if [[ -d "$NVM_DIR/versions/node" ]]; then
-        NODE_GLOBALS=($NVM_DIR/versions/node/*/bin/*(N))
-        if [[ -n "$NODE_GLOBALS" ]]; then
-            export PATH="${NODE_GLOBALS[-1]}:$PATH"
-        fi
-    fi
-    
     # Lazy load function - only load nvm when actually called
     nvm() {
-        unfunction nvm node npm npx
+        unfunction nvm node npm npx 2>/dev/null
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
         nvm "$@"
-    }
-    
-    node() {
-        unfunction nvm node npm npx
-        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-        node "$@"
-    }
-    
-    npm() {
-        unfunction nvm node npm npx
-        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-        npm "$@"
-    }
-    
-    npx() {
-        unfunction nvm node npm npx
-        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-        npx "$@"
     }
 fi
 
@@ -219,9 +198,14 @@ if [[ -f ~/.zshrc.local ]]; then
   source ~/.zshrc.local
 fi
 
-# opencode
-export PATH="$HOME/.opencode/bin:$PATH"
+# opencode + local bin (deduped via `typeset -U path PATH` above).
+path=(~/.opencode/bin ~/.local/bin ~/go/bin $path)
+
 export VOLTA_FEATURE_PNPM=1
-export PATH="$HOME/go/bin:$PATH"
+
+# Completions
 fpath=(~/.zsh/completions $fpath)
 autoload -U compinit && compinit
+
+# OpenClaw Completion
+source "/Users/colin/.openclaw/completions/openclaw.zsh"
