@@ -21,7 +21,20 @@ if ! command -v fzf-tmux >/dev/null 2>&1; then
   exit 1
 fi
 
-selection=$(sesh list | fzf-tmux -p 80%,70%) || exit 0
+preview="$HOME/.config/tmux/scripts/sesh-preview.sh"
+
+# Dracula palette matching the status line:
+#   purple #bd93f9 borders/info, cyan #8be9fd cursor, orange #ffb86c prompt+matches,
+#   comment #6272a4 hints, bg #282a36 / selection #44475a (current line).
+selection=$(sesh list | fzf-tmux -p 90%,70% \
+  --reverse \
+  --prompt '❯ ' \
+  --header 'enter: connect · ctrl-x: kill session · tab/btab: move' \
+  --color 'bg:#282a36,bg+:#44475a,fg:#f8f8f2,fg+:#f8f8f2,gutter:#282a36,preview-bg:#21222c,preview-fg:#f8f8f2,border:#bd93f9,header:#6272a4,info:#bd93f9,pointer:#8be9fd,marker:#8be9fd,prompt:#ffb86c,hl:#ffb86c,hl+:#ffb86c,spinner:#ff79c6' \
+  --bind 'tab:down,btab:up' \
+  --bind 'ctrl-x:execute-silent(tmux kill-session -t {} 2>/dev/null || true)+reload(sesh list)' \
+  --preview "$preview {}" \
+  --preview-window right,40%,border-left) || exit 0
 
 # fzf-tmux replaces the tmux pane with the picker; on selection, attach.
 sesh connect "$selection"
