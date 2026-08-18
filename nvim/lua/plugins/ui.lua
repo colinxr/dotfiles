@@ -1,45 +1,37 @@
 -- UI enhancements
 return {
-  -- Colorscheme - catppuccin mocha (modern terminal aesthetic)
+  -- Colorscheme - dracula, palette-matched to the tmux status line (triadic muted):
+  --   purple #bd93f9 workspace · cyan #8be9fd system · orange #ffb86c anchor
+  -- bg is pinned to the status-bar segment bg (#21222c) so nvim's background
+  -- matches the bar rather than stock dracula's #282a36.
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    "Mofiqul/dracula.nvim",
     priority = 1000,
     opts = {
-      flavour = "mocha", -- mocha, macchiato, frappe, latte
-      transparent_background = false,
+      transparent_bg = false,
+      italic_comment = true,
       term_colors = true,
-      styles = {
-        comments = { "italic" },
-        conditionals = {},
-        loops = {},
-        functions = {},
-        keywords = {},
-        strings = {},
-        variables = {},
-        numbers = {},
-        booleans = {},
-        properties = {},
-        types = {},
+      colors = {
+        bg = "#21222c",
+        selection = "#44475a",
       },
-      integrations = {
-        cmp = true,
-        gitsigns = true,
-        nvimtree = true,
-        treesitter = true,
-        telescope = true,
-        notify = true,
-        mason = true,
-        neotree = true,
-        which_key = true,
-      },
+      overrides = function(colors)
+        return {
+          Visual = { bg = "#44475a" },
+          CursorLineNr = { fg = colors.orange },
+          -- snacks dashboard: orange header = the session-block anchor colour
+          SnacksDashboardHeader = { fg = colors.orange },
+          SnacksDashboardIcon = { fg = colors.purple },
+          SnacksDashboardKey = { fg = colors.cyan },
+        }
+      end,
     },
   },
 
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "dracula",
     },
   },
 
