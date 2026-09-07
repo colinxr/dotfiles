@@ -209,3 +209,6 @@ autoload -U compinit && compinit
 
 # OpenClaw Completion
 source "/Users/colin/.openclaw/completions/openclaw.zsh"
+
+# direnv — auto-load per-directory env (.envrc)
+eval "$(direnv hook zsh)"
